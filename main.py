@@ -3,7 +3,7 @@ from PySide import QtCore, QtGui
 
 
 class MainWindow(QtGui.QWidget):
-    def __init__(self):
+    def __init__(self, controller):
         super().__init__()
 
         self.resize(130, 50)
@@ -14,6 +14,13 @@ class MainWindow(QtGui.QWidget):
         self.btn_spause = QtGui.QPushButton("Short Pause", self)
         self.widget = QtGui.QLabel(str("25:00"), self)
         self.countPomidoro = QtGui.QLabel(str("1"), self)
+
+        self.control = controller
+
+        # timer
+        self.timer = QtCore.QTimer(self)
+
+        # self.control.btn_start_click(self)
 
         # layout
         self.layoutVertical = QtGui.QVBoxLayout(self)
@@ -30,6 +37,12 @@ class MainWindow(QtGui.QWidget):
 
         self.btn_lpause.hide()
         self.btn_spause.hide()
+
+        # connect
+        self.btn_start.clicked.connect(self.on_button)
+
+    def on_button(self):
+        self.control.btn_start_click(self)
 
     def create_tray_icon(self):
         icon = QtGui.QIcon('images/black-tomat.png')
@@ -116,11 +129,28 @@ class Dialog(QtGui.QDialog):
         self.hide()
 
 
+class Controller():
+
+    def btn_start_click(self, app):
+        if not app.timer.isActive():
+            app.btn_start.setText("Stop")
+            icon = QtGui.QIcon('images/red-tomat.png')
+            app.trayIcon.setIcon(icon)
+            app.timer.start(1000)
+        else:
+            app.btn_start.setText("Start")
+            app.timer.stop()
+            icon = QtGui.QIcon('images/black-tomat.png')
+            app.trayIcon.setIcon(icon)
+
+
+
 if __name__ == '__main__':
     app = QtGui.QApplication(sys.argv)
     app.setApplicationName('TomatoTimer')
 
-    main = MainWindow()
+    control = Controller()
+    main = MainWindow(control)
     main.show()
 
     sys.exit(app.exec_())
