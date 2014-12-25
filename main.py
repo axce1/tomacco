@@ -1,6 +1,7 @@
 import sys
 from PySide import QtCore, QtGui
 
+import state
 
 class MainWindow(QtGui.QWidget):
     def __init__(self, controller):
@@ -132,6 +133,8 @@ class Dialog(QtGui.QDialog):
 class Controller():
 
     def btn_start_click(self, app):
+        st = state.LogicFMS()
+        print (st.get_state)
         if not app.timer.isActive():
             app.btn_start.setText("Stop")
             icon = QtGui.QIcon('images/red-tomat.png')
