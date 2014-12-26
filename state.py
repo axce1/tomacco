@@ -1,6 +1,26 @@
 State = type("State", (), {})
 
 
+class TickEvent(current_time):
+    pass
+
+
+class StartEvent:
+    pass
+
+
+class StopEvent:
+    pass
+
+
+class ShortEvent:
+    pass
+
+
+class LongEvent:
+    pass
+
+
 class InitState(State):
     pass
 
@@ -9,15 +29,15 @@ class SelectState(State):
     pass
 
 
-class TomatoState(State):
+class TomatoState(State, init_time):
     pass
 
 
-class ShortState(State):
+class ShortState(State, init_time):
     pass
 
 
-class LongState(State):
+class LongState(State, init_time):
     pass
 
 
