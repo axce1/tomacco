@@ -1,4 +1,5 @@
 import sys
+import time
 from PySide import QtCore, QtGui
 
 import state
@@ -20,6 +21,8 @@ class MainWindow(QtGui.QWidget):
 
         # timer
         self.timer = QtCore.QTimer(self)
+        self.timer.timeout.connect(self.update_label)
+        # self.timer.start(1000)
 
         # self.control.btn_start_click(self)
 
@@ -44,6 +47,13 @@ class MainWindow(QtGui.QWidget):
 
     def on_button(self):
         self.control.btn_start_click(self)
+
+    def update_label(self):
+        now = self.control.tick.get_time()
+        label_time = time.strftime("%M:%S", time.gmtime(now))
+        self.widget.setText(str(label_time))
+        self.control.st.next_state(state.TickEvent)
+        print (self.control.st.get_state)
 
     def create_tray_icon(self):
         icon = QtGui.QIcon('images/black-tomat.png')
@@ -132,19 +142,34 @@ class Dialog(QtGui.QDialog):
 
 class Controller():
 
+    def __init__(self):
+        self.st = state.LogicFMS()
+        self.tick = state.TickEvent()
+
     def btn_start_click(self, app):
-        st = state.LogicFMS()
-        print (st.get_state)
-        if not app.timer.isActive():
+
+        if self.st.state.name == 'init':
+            app.timer.start(1000)
             app.btn_start.setText("Stop")
             icon = QtGui.QIcon('images/red-tomat.png')
             app.trayIcon.setIcon(icon)
-            app.timer.start(1000)
+            self.st.next_state(state.StartEvent, time.time())
         else:
-            app.btn_start.setText("Start")
             app.timer.stop()
+            app.btn_start.setText("Start")
             icon = QtGui.QIcon('images/black-tomat.png')
             app.trayIcon.setIcon(icon)
+            self.st.next_state(state.StopEvent)
+        # if not app.timer.isActive():
+            # app.btn_start.setText("Stop")
+            # icon = QtGui.QIcon('images/red-tomat.png')
+            # app.trayIcon.setIcon(icon)
+            # app.timer.start(1000)
+        # else:
+            # app.btn_start.setText("Start")
+            # app.timer.stop()
+            # icon = QtGui.QIcon('images/black-tomat.png')
+            # app.trayIcon.setIcon(icon)
 
 
 
