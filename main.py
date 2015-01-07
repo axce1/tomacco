@@ -22,7 +22,7 @@ class MainWindow(QtGui.QWidget):
         # timer
         self.timer = QtCore.QTimer(self)
         self.timer.timeout.connect(self.update_label)
-        # self.timer.start(1000)
+        self.timer.start(1000)
 
         # self.control.btn_start_click(self)
 
@@ -49,11 +49,11 @@ class MainWindow(QtGui.QWidget):
         self.control.btn_start_click(self)
 
     def update_label(self):
-        print (self.control.tick.get_ti())
-        now = self.control.tick.get_ti()
-        label_time = time.strftime("%M:%S", time.gmtime(now))
-        self.widget.setText(str(label_time))
-        self.control.st.next_state(state.TickEvent)
+        tick = state.TickEvent(time.time())
+        if not self.control.st.get_state == 'init':
+            label_time = time.strftime("%M:%S", time.gmtime(tick.get_time()))
+            self.widget.setText(str(label_time))
+        self.control.st.next_state(tick)
         print (self.control.st.get_state)
 
     def create_tray_icon(self):
@@ -145,18 +145,15 @@ class Controller():
 
     def __init__(self):
         self.st = state.LogicFMS()
-        self.tick = state.TickEvent(time.time())
 
     def btn_start_click(self, app):
 
         if self.st.state.name == 'init':
-            app.timer.start(1000)
             app.btn_start.setText("Stop")
             icon = QtGui.QIcon('images/red-tomat.png')
             app.trayIcon.setIcon(icon)
             self.st.next_state(state.StartEvent, time.time())
         else:
-            app.timer.stop()
             app.btn_start.setText("Start")
             icon = QtGui.QIcon('images/black-tomat.png')
             app.trayIcon.setIcon(icon)

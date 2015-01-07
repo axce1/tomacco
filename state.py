@@ -11,7 +11,7 @@ class TickEvent():
         """
         self.ctime = ctime
 
-    def get_ti(self):
+    def get_time(self):
         return self.ctime
 
 
@@ -99,8 +99,7 @@ class LogicFMS():
 
         elif isinstance(self.state, TomatoState):
             if event == TickEvent:
-                print (dir(TickEvent))
-                if 6 == int(TickEvent.get_ti(self) - self.state.get_time()):
+                if 6 == int(TickEvent.get_time(self) - self.state.get_time()):
                     self.state = SelectState()
             elif event == StopEvent:
                 self.state = InitState()
