@@ -49,7 +49,8 @@ class MainWindow(QtGui.QWidget):
         self.control.btn_start_click(self)
 
     def update_label(self):
-        now = self.control.tick.get_time()
+        print (self.control.tick.get_ti())
+        now = self.control.tick.get_ti()
         label_time = time.strftime("%M:%S", time.gmtime(now))
         self.widget.setText(str(label_time))
         self.control.st.next_state(state.TickEvent)
@@ -144,7 +145,7 @@ class Controller():
 
     def __init__(self):
         self.st = state.LogicFMS()
-        self.tick = state.TickEvent()
+        self.tick = state.TickEvent(time.time())
 
     def btn_start_click(self, app):
 

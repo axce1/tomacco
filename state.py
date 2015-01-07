@@ -5,8 +5,14 @@ State = type("State", (), {})
 
 class TickEvent():
 
-    def get_time(self):
-        return time.time()
+    def __init__(self, ctime):
+        """
+        ctime - current time
+        """
+        self.ctime = ctime
+
+    def get_ti(self):
+        return self.ctime
 
 
 class StartEvent:
@@ -44,6 +50,9 @@ class SelectState(State):
 class TomatoState(State):
 
     def __init__(self, stime):
+        """
+        stime - state start time
+        """
         self.stime = stime
         self.name = 'tomato'
 
@@ -90,7 +99,8 @@ class LogicFMS():
 
         elif isinstance(self.state, TomatoState):
             if event == TickEvent:
-                if 6 == int(TickEvent.get_time(self) - self.state.get_time()):
+                print (dir(TickEvent))
+                if 6 == int(TickEvent.get_ti(self) - self.state.get_time()):
                     self.state = SelectState()
             elif event == StopEvent:
                 self.state = InitState()
