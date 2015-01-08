@@ -26,10 +26,14 @@ class MainWindow(QtGui.QWidget):
 
         # self.control.btn_start_click(self)
 
+        # lcd
+        self.lcd = QtGui.QLCDNumber()
+        self.lcd.display('15:20')
+
         # layout
         self.layoutVertical = QtGui.QVBoxLayout(self)
         self.layoutVertical.addWidget(self.countPomidoro)
-        self.layoutVertical.addWidget(self.widget)
+        self.layoutVertical.addWidget(self.lcd)
         self.layoutVertical.addWidget(self.btn_start)
         self.layoutVertical.addWidget(self.btn_lpause)
         self.layoutVertical.addWidget(self.btn_spause)
@@ -49,12 +53,19 @@ class MainWindow(QtGui.QWidget):
         self.control.btn_start_click(self)
 
     def update_label(self):
-        tick = state.TickEvent(time.time())
-        if not self.control.st.get_state == 'init':
-            label_time = time.strftime("%M:%S", time.gmtime(tick.get_time()))
+        t = time.time()
+        self.evt = state.TickEvent(t)
+        self.control.st.next_state(self.evt)
+        self.update_windonw()
+        # print (self.control.st.get_state)
+
+    def update_windonw(self):
+        if isinstance(self.control.st.state, state.InitState):
+            self.widget.setText('Press Start to starting pomidoro')
+        elif isinstance(self.control.st.state, state.TomatoState):
+            label_time = self.control.st.remining_time(self.evt)
             self.widget.setText(str(label_time))
-        self.control.st.next_state(tick)
-        print (self.control.st.get_state)
+            self.lcd.display(str(label_time))
 
     def create_tray_icon(self):
         icon = QtGui.QIcon('images/black-tomat.png')

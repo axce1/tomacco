@@ -91,6 +91,12 @@ class LogicFMS():
     def get_state(self):
         return self.state.name
 
+    def remining_time(self, event):
+        if isinstance(event, TickEvent):
+            count = event.get_time() - self.state.get_time()
+            remining_time = time.strftime("%M:%S", time.gmtime(count))
+            return remining_time
+
     def next_state(self, event, stime=None):
 
         if isinstance(self.state, InitState):
