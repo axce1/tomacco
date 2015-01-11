@@ -104,28 +104,28 @@ class LogicFMS():
                 self.state = TomatoState(stime)
 
         elif isinstance(self.state, TomatoState):
-            if event == TickEvent:
-                if 6 == int(TickEvent.get_time(self) - self.state.get_time()):
+            if isinstance(event, TickEvent):
+                if 6 <= int(event.get_time() - self.state.get_time()):
+                    self.state = SelectState()
+            elif isinstance(event, StopEvent):
+                self.state = InitState()
+
+        elif isinstance(self.state, SelectState):
+            if isinstance(event, ShortEvent):
+                self.state = ShortState(stime)
+            elif isinstance(event, LongEvent):
+                self.state = LongState(stime)
+
+        elif isinstance(self.state, ShortState):
+            if isinstance(event, TickEvent):
+                if 6 <= int(event.get_time() - self.state.get_time()):
                     self.state = SelectState()
             elif event == StopEvent:
                 self.state = InitState()
 
-        elif isinstance(self.state, SelectState):
-            if event == ShortEvent:
-                self.state = ShortState()
-            elif event == LongEvent:
-                self.state = LongState()
-
-        elif isinstance(self.state, ShortState):
-            if event == TickEvent:
-                if 6 == (TickEvent.get_time - ShortState.get_time):
-                    self.state = SelectState()
-            elif event == StopEvent():
-                self.state = InitState()
-
         elif isinstance(self, LongState):
-            if event == TickEvent:
-                if 6 == (TickEvent.get_time - LongState.get_time):
+            if isinstance(event, TickEvent):
+                if 6 <= int(event.get_time - self.state.get_time):
                     self.state = SelectState()
             elif event == StopEvent:
                 self.state = InitState()
