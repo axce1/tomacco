@@ -3,16 +3,9 @@ import time
 State = type("State", (), {})
 
 
-class TickEvent():
-
-    def __init__(self, ctime):
-        """
-        ctime - current time
-        """
-        self.ctime = ctime
-
-    def get_time(self):
-        return self.ctime
+class TickEvent:
+    ''' tick event '''
+    pass
 
 
 class StartEvent:
@@ -83,6 +76,7 @@ class LongState(State):
 class LogicFMS():
     def __init__(self):
         self.state = InitState()
+        self.pomidor = 1
 
     def set_state(self, name):
         self.state = name
@@ -91,24 +85,25 @@ class LogicFMS():
     def get_state(self):
         return self.state.name
 
-    def remining_time(self, event):
+    def remining_time(self, event, stime):
         if isinstance(event, TickEvent):
-            count = event.get_time() - self.state.get_time()
+            count = stime - self.state.get_time()
             remining_time = time.strftime("%M:%S", time.gmtime(count))
             return remining_time
 
-    def next_state(self, event, stime=None):
-
+    def next_state(self, event, stime):
         if isinstance(self.state, InitState):
             if event == StartEvent:
                 self.state = TomatoState(stime)
 
         elif isinstance(self.state, TomatoState):
             if isinstance(event, TickEvent):
-                if 6 <= int(event.get_time() - self.state.get_time()):
+                if self.tomat <= int(stime - self.state.get_time()):
                     self.state = SelectState()
-            elif isinstance(event, StopEvent):
+                    self.pomidor += 1
+            if isinstance(event, StopEvent):
                 self.state = InitState()
+                self.pomidor = 1
 
         elif isinstance(self.state, SelectState):
             if isinstance(event, ShortEvent):
@@ -118,14 +113,14 @@ class LogicFMS():
 
         elif isinstance(self.state, ShortState):
             if isinstance(event, TickEvent):
-                if 6 <= int(event.get_time() - self.state.get_time()):
-                    self.state = SelectState()
-            elif event == StopEvent:
+                if self.spause <= int(stime - self.state.get_time()):
+                    self.state = InitState()
+            elif isinstance(event, StopEvent):
                 self.state = InitState()
 
         elif isinstance(self, LongState):
             if isinstance(event, TickEvent):
-                if 6 <= int(event.get_time - self.state.get_time):
-                    self.state = SelectState()
-            elif event == StopEvent:
+                if self.lpause <= int(stime - self.state.get_time()):
+                    self.state = InitState()
+            elif isinstance(event, StopEvent):
                 self.state = InitState()
