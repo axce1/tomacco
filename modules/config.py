@@ -1,4 +1,5 @@
 import os.path
+import subprocess
 import configparser
 
 
@@ -41,4 +42,10 @@ def write_conf(section, option, value):
     with open(path, "w") as config_file:
         config.write(config_file)
 
-read_conf("Settings", 'ttime')
+
+def notify(body):
+        image = os.path.abspath('images/red-tomat.png')
+        cmd=['notify-send', '--icon=%s' % image]
+        cmd.extend(['TomatoTimer', body.encode('utf-8')])
+        subprocess.call(cmd, stderr = open('/dev/null', 'a'))
+

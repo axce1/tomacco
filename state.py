@@ -1,4 +1,8 @@
 import time
+import os
+
+from modules import config
+
 
 State = type("State", (), {})
 
@@ -101,9 +105,14 @@ class LogicFMS():
                 if self.tomat <= int(stime - self.state.get_time()):
                     self.state = SelectState()
                     self.pomidor += 1
-            if isinstance(event, StopEvent):
+                    config.notify('Count Tomat Stop')
+            elif isinstance(event, StopEvent):
                 self.state = InitState()
                 self.pomidor = 1
+            elif isinstance(event, LongEvent):
+                self.state = LongState(stime)
+            elif isinstance(event, ShortEvent):
+                self.state = ShortState(stime)
 
         elif isinstance(self.state, SelectState):
             if isinstance(event, ShortEvent):
@@ -115,12 +124,22 @@ class LogicFMS():
             if isinstance(event, TickEvent):
                 if self.spause <= int(stime - self.state.get_time()):
                     self.state = InitState()
+                    config.notify('Short Pause Stop')
             elif isinstance(event, StopEvent):
                 self.state = InitState()
+#             elif isinstance(event, LongEvent):
+                # self.state = LongState(stime)
+            # elif isinstance(event, StartEvent):
+                # self.state = StartState(stime)
 
-        elif isinstance(self, LongState):
+        elif isinstance(self.state, LongState):
             if isinstance(event, TickEvent):
                 if self.lpause <= int(stime - self.state.get_time()):
                     self.state = InitState()
+                    config.notify('Long Pause Stop')
             elif isinstance(event, StopEvent):
                 self.state = InitState()
+#             elif isinstance(event, ShortEvent):
+                # self.state = ShortState(stime)
+            elif isinstance(event, StartEvent):
+                 self.state = StartState(stime)
