@@ -80,7 +80,7 @@ class LongState(State):
 class LogicFMS():
     def __init__(self):
         self.state = InitState()
-        self.pomidor = 1
+        self.pomidor = 0
 
     def set_state(self, name):
         self.state = name
@@ -108,7 +108,6 @@ class LogicFMS():
                     config.notify('Count Tomat Stop')
             elif isinstance(event, StopEvent):
                 self.state = InitState()
-                self.pomidor = 1
             elif isinstance(event, LongEvent):
                 self.state = LongState(stime)
             elif isinstance(event, ShortEvent):
@@ -127,19 +126,20 @@ class LogicFMS():
                     config.notify('Short Pause Stop')
             elif isinstance(event, StopEvent):
                 self.state = InitState()
-#             elif isinstance(event, LongEvent):
-                # self.state = LongState(stime)
-            # elif isinstance(event, StartEvent):
-                # self.state = StartState(stime)
+            elif isinstance(event, LongEvent):
+                self.state = LongState(stime)
+            elif isinstance(event, StartEvent):
+                self.state = StartState(stime)
 
         elif isinstance(self.state, LongState):
             if isinstance(event, TickEvent):
                 if self.lpause <= int(stime - self.state.get_time()):
                     self.state = InitState()
                     config.notify('Long Pause Stop')
+                    self.pomidor = 0
             elif isinstance(event, StopEvent):
                 self.state = InitState()
-#             elif isinstance(event, ShortEvent):
-                # self.state = ShortState(stime)
+            elif isinstance(event, ShortEvent):
+                self.state = ShortState(stime)
             elif isinstance(event, StartEvent):
                  self.state = StartState(stime)

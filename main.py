@@ -8,6 +8,7 @@ from modules import config
 import state
 
 
+#TODO убрать notify из модели
 class MainWindow(QtGui.QWidget, form.Ui_Dialog):
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -49,7 +50,7 @@ class MainWindow(QtGui.QWidget, form.Ui_Dialog):
         self.fms.next_state(state.StartEvent, time.time())
 
     def on_btn_stop(self):
-        icon = QtGui.QIcon('images/black-tomat.png')
+        icon = QtGui.QIcon('images/init-tomat.png')
         self.trayIcon.setIcon(icon)
         #XXX dont work state.StopEvent, only state.StopEvent()
         self.fms.next_state(state.StopEvent(), time.time())
@@ -72,7 +73,7 @@ class MainWindow(QtGui.QWidget, form.Ui_Dialog):
 
     def update_windonw(self):
         if isinstance(self.fms.state, state.InitState):
-            icon = QtGui.QIcon('images/black-tomat.png')
+            icon = QtGui.QIcon('images/init-tomat.png')
             self.trayIcon.setIcon(icon)
             self.label.setText("Tomat - " + str(self.fms.pomidor))
             self.lcd.display(str('00:00'))
@@ -128,7 +129,8 @@ class MainWindow(QtGui.QWidget, form.Ui_Dialog):
             self.shortAction.setDisabled(True)
             self.longAction.setDisabled(True)
 
-    def force_stop(self):
+    def forse_stop(self):
+        self.fms.pomidor = 0
         self.fms.next_state(state.StopEvent(), time.time())
 
     def set_position(self):
@@ -139,7 +141,7 @@ class MainWindow(QtGui.QWidget, form.Ui_Dialog):
                   screen.height() - (size.height()*4))
 
     def create_tray_icon(self):
-        icon = QtGui.QIcon('images/black-tomat.png')
+        icon = QtGui.QIcon('images/init-tomat.png')
         menu = QtGui.QMenu(self)
 
         self.startAction = menu.addAction("Start Pomidoro")
@@ -166,7 +168,7 @@ class MainWindow(QtGui.QWidget, form.Ui_Dialog):
         self.forceLong.triggered.connect(self.long_tray)
 
         resetAction = menu.addAction("Reset Pomidoro")
-        resetAction.triggered.connect(self.force_stop)
+        resetAction.triggered.connect(self.forse_stop)
         menu.addSeparator()
 
         settingAction = menu.addAction("Settings")
