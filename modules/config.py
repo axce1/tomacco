@@ -32,7 +32,7 @@ def read_conf(section, option):
 
     value = config.get(section, option)
 
-    return value
+    return int(value)
 
 
 def write_conf(section, option, value):

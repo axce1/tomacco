@@ -55,7 +55,7 @@ class Ui_Dialog(object):
 
     def retranslateUi(self, Dialog):
         Dialog.setWindowTitle(QtGui.QApplication.translate("Dialog", "Dialog", None, QtGui.QApplication.UnicodeUTF8))
-        self.ttime.setText(QtGui.QApplication.translate("Dialog", "Tomato Time", None, QtGui.QApplication.UnicodeUTF8))
+        self.ttime.setText(QtGui.QApplication.translate("Dialog", "Tomacco Time", None, QtGui.QApplication.UnicodeUTF8))
         self.lptime.setText(QtGui.QApplication.translate("Dialog", "Long Pause Time", None, QtGui.QApplication.UnicodeUTF8))
         self.sptime.setText(QtGui.QApplication.translate("Dialog", "Short Pause Time", None, QtGui.QApplication.UnicodeUTF8))
         self.btnCnl.setText(QtGui.QApplication.translate("Dialog", "Cancel", None, QtGui.QApplication.UnicodeUTF8))

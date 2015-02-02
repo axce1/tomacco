@@ -9,29 +9,29 @@ import state
 
 
 #TODO убрать notify из модели
-class MainWindow(QtGui.QWidget, form.Ui_Dialog):
+class MainWindow(QtGui.QMainWindow):
     def __init__(self, parent=None):
-        super().__init__(parent)
-        self.setupUi(self)
+        super().__init__()
+        self.ui = form.Ui_MainWindow()
+        self.ui.setupUi(self)
         self.fms = state.LogicFMS()
 
         self.dialog = DialogWindow(self)
         self.dialog.update_time()
 
         # init show window
-        self.setFixedSize(self.size())
         self.set_position()
-        self.btn_lpause.hide()
-        self.btn_spause.hide()
-        self.btn_stop.hide()
+        self.ui.btn_lpause.hide()
+        self.ui.btn_spause.hide()
+        self.ui.btn_stop.hide()
 
         # timer
         self.timer = QtCore.QTimer(self)
-        self.timer.timeout.connect(self.update_label)
+        self.timer.timeout.connect(self.update_status_bar)
         self.timer.start(100)
 
         # lcd
-        self.lcd.display('00:00')
+        self.ui.lcd.display('00:00')
 
         # tray
         self.create_tray_icon()
@@ -39,10 +39,10 @@ class MainWindow(QtGui.QWidget, form.Ui_Dialog):
         self.trayIcon.show()
 
         # connect
-        self.btn_start.clicked.connect(self.on_btn_start)
-        self.btn_stop.clicked.connect(self.on_btn_stop)
-        self.btn_spause.clicked.connect(self.on_btn_spause)
-        self.btn_lpause.clicked.connect(self.on_btn_lpause)
+        self.ui.btn_start.clicked.connect(self.on_btn_start)
+        self.ui.btn_stop.clicked.connect(self.on_btn_stop)
+        self.ui.btn_spause.clicked.connect(self.on_btn_spause)
+        self.ui.btn_lpause.clicked.connect(self.on_btn_lpause)
 
     def on_btn_start(self):
         icon = QtGui.QIcon('images/red-tomat.png')
@@ -65,7 +65,7 @@ class MainWindow(QtGui.QWidget, form.Ui_Dialog):
         self.trayIcon.setIcon(icon)
         self.fms.next_state(state.LongEvent(), time.time())
 
-    def update_label(self):
+    def update_status_bar(self):
         t = time.time()
         self.evt = state.TickEvent()
         self.fms.next_state(self.evt, t)
@@ -75,10 +75,10 @@ class MainWindow(QtGui.QWidget, form.Ui_Dialog):
         if isinstance(self.fms.state, state.InitState):
             icon = QtGui.QIcon('images/init-tomat.png')
             self.trayIcon.setIcon(icon)
-            self.label.setText("Tomat - " + str(self.fms.pomidor))
-            self.lcd.display(str('00:00'))
-            self.btn_start.show()
-            self.btn_stop.hide()
+            self.ui.status_bar.showMessage("Tomacco - " + str(self.fms.tomacco))
+            self.ui.lcd.display(str('00:00'))
+            self.ui.btn_start.show()
+            self.ui.btn_stop.hide()
             self.startAction.setDisabled(False)
             self.stopAction.setDisabled(True)
             self.shortAction.setDisabled(True)
@@ -86,44 +86,44 @@ class MainWindow(QtGui.QWidget, form.Ui_Dialog):
 
         elif isinstance(self.fms.state, state.TomatoState):
             lcd_time = self.fms.remining_time(self.evt, time.time())
-            self.label.setText('Counting...')
-            self.lcd.display(str(lcd_time))
-            self.btn_start.hide()
-            self.btn_stop.show()
+            self.ui.status_bar.showMessage('Counting...')
+            self.ui.lcd.display(str(lcd_time))
+            self.ui.btn_start.hide()
+            self.ui.btn_stop.show()
             self.stopAction.setDisabled(False)
             self.startAction.setDisabled(True)
             self.shortAction.setDisabled(True)
             self.longAction.setDisabled(True)
 
         elif isinstance(self.fms.state, state.SelectState):
-            self.label.setText('Select Pause')
-            self.lcd.display(str('00:00'))
-            self.btn_start.hide()
-            self.btn_stop.hide()
-            self.btn_lpause.show()
-            self.btn_spause.show()
+            self.ui.status_bar.showMessage('Select Pause')
+            self.ui.lcd.display(str('00:00'))
+            self.ui.btn_start.hide()
+            self.ui.btn_stop.hide()
+            self.ui.btn_lpause.show()
+            self.ui.btn_spause.show()
             self.stopAction.setDisabled(True)
             self.startAction.setDisabled(True)
 
         elif isinstance(self.fms.state, state.ShortState):
-            label_time = self.fms.remining_time(self.evt, time.time())
-            self.label.setText('Short Pause')
-            self.lcd.display(str(label_time))
-            self.btn_lpause.hide()
-            self.btn_spause.hide()
-            self.btn_stop.show()
+            status_bar_time = self.fms.remining_time(self.evt, time.time())
+            self.ui.status_bar.showMessage('Short Pause')
+            self.ui.lcd.display(str(status_bar_time))
+            self.ui.btn_lpause.hide()
+            self.ui.btn_spause.hide()
+            self.ui.btn_stop.show()
             self.stopAction.setDisabled(False)
             self.startAction.setDisabled(True)
             self.shortAction.setDisabled(True)
             self.longAction.setDisabled(True)
 
         elif isinstance(self.fms.state, state.LongState):
-            label_time = self.fms.remining_time(self.evt, time.time())
-            self.label.setText('Long Pause')
-            self.lcd.display(str(label_time))
-            self.btn_lpause.hide()
-            self.btn_spause.hide()
-            self.btn_stop.show()
+            status_bar_time = self.fms.remining_time(self.evt, time.time())
+            self.ui.status_bar.showMessage('Long Pause')
+            self.ui.lcd.display(str(status_bar_time))
+            self.ui.btn_lpause.hide()
+            self.ui.btn_spause.hide()
+            self.ui.btn_stop.show()
             self.stopAction.setDisabled(False)
             self.startAction.setDisabled(True)
             self.shortAction.setDisabled(True)
@@ -144,10 +144,10 @@ class MainWindow(QtGui.QWidget, form.Ui_Dialog):
         icon = QtGui.QIcon('images/init-tomat.png')
         menu = QtGui.QMenu(self)
 
-        self.startAction = menu.addAction("Start Pomidoro")
+        self.startAction = menu.addAction("Start Tomacco")
         self.startAction.triggered.connect(self.start_tray)
 
-        self.stopAction = menu.addAction("Stop Pomidoro")
+        self.stopAction = menu.addAction("Stop Tomacco")
         self.stopAction.triggered.connect(self.stop_tray)
 
         self.shortAction = menu.addAction("Short Pause")
@@ -158,8 +158,8 @@ class MainWindow(QtGui.QWidget, form.Ui_Dialog):
 
         menu.addSeparator()
 
-        self.forcePomidor = menu.addAction("Force Pomidor")
-        self.forcePomidor.triggered.connect(self.start_tray)
+        self.forceTomacco = menu.addAction("Force Tomacco")
+        self.forceTomacco.triggered.connect(self.start_tray)
 
         self.forceShort = menu.addAction("Force Short")
         self.forceShort.triggered.connect(self.short_tray)
@@ -167,7 +167,7 @@ class MainWindow(QtGui.QWidget, form.Ui_Dialog):
         self.forceLong = menu.addAction("Force Long")
         self.forceLong.triggered.connect(self.long_tray)
 
-        resetAction = menu.addAction("Reset Pomidoro")
+        resetAction = menu.addAction("Reset Tomacco")
         resetAction.triggered.connect(self.forse_stop)
         menu.addSeparator()
 
@@ -182,12 +182,12 @@ class MainWindow(QtGui.QWidget, form.Ui_Dialog):
     def start_tray(self):
         self.on_btn_start()
         if self.isHidden():
-            config.notify('Pomidoro Start')
+            config.notify('Tomacco Start')
 
     def stop_tray(self):
         self.on_btn_stop()
         if self.isHidden():
-            config.notify('Pomidoro Stop')
+            config.notify('Tomacco Stop')
 
     def short_tray(self):
         self.on_btn_spause()
@@ -220,9 +220,9 @@ class DialogWindow(QtGui.QDialog, dialog.Ui_Dialog):
         self.setWindowModality(QtCore.Qt.WindowModal)
         self.setFixedSize(self.size())
 
-        self.spinTomat.setValue(int(self.read_settings('ttime')))
-        self.spinLong.setValue(int(self.read_settings('lpause')))
-        self.spinShort.setValue(int(self.read_settings('spause')))
+        self.spinTomat.setValue(self.read_settings('ttime'))
+        self.spinLong.setValue(self.read_settings('lpause'))
+        self.spinShort.setValue(self.read_settings('spause'))
 
         self.btnOk.clicked.connect(self.btn_ok_click)
         self.btnCnl.clicked.connect(self.btn_cnl_click)
@@ -243,9 +243,9 @@ class DialogWindow(QtGui.QDialog, dialog.Ui_Dialog):
         self.update_time()
 
     def update_time(self):
-        self.app.fms.tomat = int(config.read_conf("Settings", 'ttime')) * 60
-        self.app.fms.lpause = int(config.read_conf("Settings", 'lpause')) * 60
-        self.app.fms.spause = int(config.read_conf("Settings", 'spause')) * 60
+        self.app.fms.tomat = config.read_conf("Settings", 'ttime') * 60
+        self.app.fms.lpause = config.read_conf("Settings", 'lpause') * 60
+        self.app.fms.spause = config.read_conf("Settings", 'spause') * 60
 
     def btn_ok_click(self):
         self.write_settings()
@@ -257,7 +257,7 @@ class DialogWindow(QtGui.QDialog, dialog.Ui_Dialog):
 
 if __name__ == '__main__':
     app = QtGui.QApplication(sys.argv)
-    app.setApplicationName('TomatoTimer')
+    app.setApplicationName('TomaccoTimer')
 
     main = MainWindow()
     main.show()

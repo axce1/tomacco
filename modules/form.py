@@ -1,46 +1,82 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'untitled.ui'
+# Form implementation generated from reading ui file 'qqq.ui'
 #
-# Created: Wed Jan 21 16:35:26 2015
+# Created: Mon Feb  2 10:11:41 2015
 #      by: pyside-uic 0.2.15 running on PySide 1.2.2
 #
 # WARNING! All changes made in this file will be lost!
 
 from PySide import QtCore, QtGui
 
-class Ui_Dialog(object):
-    def setupUi(self, Dialog):
-        Dialog.setObjectName("Dialog")
-        Dialog.resize(260, 100)
-        self.btn_lpause = QtGui.QPushButton(Dialog)
-        self.btn_lpause.setGeometry(QtCore.QRect(170, 40, 81, 26))
-        self.btn_lpause.setObjectName("btn_lpause")
-        self.btn_start = QtGui.QPushButton(Dialog)
-        self.btn_start.setEnabled(True)
-        self.btn_start.setGeometry(QtCore.QRect(170, 10, 81, 50))
-        self.btn_start.setObjectName("btn_start")
-        self.btn_spause = QtGui.QPushButton(Dialog)
-        self.btn_spause.setGeometry(QtCore.QRect(170, 10, 81, 26))
-        self.btn_spause.setObjectName("btn_spause")
-        self.lcd = QtGui.QLCDNumber(Dialog)
-        self.lcd.setGeometry(QtCore.QRect(10, 10, 151, 75))
+class Ui_MainWindow(object):
+    def setupUi(self, MainWindow):
+        MainWindow.setObjectName("MainWindow")
+        # MainWindow.resize(360, 201)
+        MainWindow.resize(300, 150)
+        self.centralwidget = QtGui.QWidget(MainWindow)
+        self.centralwidget.setObjectName("centralwidget")
+        self.horizontalLayout_2 = QtGui.QHBoxLayout(self.centralwidget)
+        self.horizontalLayout_2.setObjectName("horizontalLayout_2")
+        self.horizontalLayout = QtGui.QHBoxLayout()
+        self.horizontalLayout.setObjectName("horizontalLayout")
+        self.lcd = QtGui.QLCDNumber(self.centralwidget)
         self.lcd.setObjectName("lcd")
-        self.btn_stop = QtGui.QPushButton(Dialog)
-        self.btn_stop.setGeometry(QtCore.QRect(170, 10, 81, 50))
+        self.horizontalLayout.addWidget(self.lcd)
+        self.verticalLayout = QtGui.QVBoxLayout()
+        self.verticalLayout.setContentsMargins(-1, 0, -1, -1)
+        self.verticalLayout.setObjectName("verticalLayout")
+        self.btn_start = QtGui.QPushButton(self.centralwidget)
+        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.btn_start.sizePolicy().hasHeightForWidth())
+        self.btn_start.setSizePolicy(sizePolicy)
+        self.btn_start.setObjectName("btn_start")
+        self.verticalLayout.addWidget(self.btn_start)
+        self.btn_stop = QtGui.QPushButton(self.centralwidget)
+        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.btn_stop.sizePolicy().hasHeightForWidth())
+        self.btn_stop.setSizePolicy(sizePolicy)
         self.btn_stop.setObjectName("btn_stop")
-        self.label = QtGui.QLabel(Dialog)
-        self.label.setGeometry(QtCore.QRect(170, 70, 81, 16))
-        self.label.setObjectName("label")
+        self.verticalLayout.addWidget(self.btn_stop)
+        self.btn_spause = QtGui.QPushButton(self.centralwidget)
+        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(30)
+        sizePolicy.setHeightForWidth(self.btn_spause.sizePolicy().hasHeightForWidth())
+        self.btn_spause.setSizePolicy(sizePolicy)
+        self.btn_spause.setObjectName("btn_spause")
+        self.verticalLayout.addWidget(self.btn_spause)
+        self.btn_lpause = QtGui.QPushButton(self.centralwidget)
+        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(30)
+        sizePolicy.setHeightForWidth(self.btn_lpause.sizePolicy().hasHeightForWidth())
+        self.btn_lpause.setSizePolicy(sizePolicy)
+        self.btn_lpause.setObjectName("btn_lpause")
+        self.verticalLayout.addWidget(self.btn_lpause)
+        spacerItem = QtGui.QSpacerItem(20, 40, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
+        self.verticalLayout.addItem(spacerItem)
+        self.horizontalLayout.addLayout(self.verticalLayout)
+        self.horizontalLayout.setStretch(0, 10)
+        self.horizontalLayout_2.addLayout(self.horizontalLayout)
+        MainWindow.setCentralWidget(self.centralwidget)
+        self.status_bar = QtGui.QStatusBar(MainWindow)
+        self.status_bar.setObjectName("status_bar")
+        MainWindow.setStatusBar(self.status_bar)
 
-        self.retranslateUi(Dialog)
-        QtCore.QMetaObject.connectSlotsByName(Dialog)
+        self.retranslateUi(MainWindow)
+        QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
-    def retranslateUi(self, Dialog):
-        Dialog.setWindowTitle(QtGui.QApplication.translate("Dialog", "Dialog", None, QtGui.QApplication.UnicodeUTF8))
-        self.btn_lpause.setText(QtGui.QApplication.translate("Dialog", "Long Pause", None, QtGui.QApplication.UnicodeUTF8))
-        self.btn_start.setText(QtGui.QApplication.translate("Dialog", "Start Pomido", None, QtGui.QApplication.UnicodeUTF8))
-        self.btn_spause.setText(QtGui.QApplication.translate("Dialog", "Short Pause", None, QtGui.QApplication.UnicodeUTF8))
-        self.btn_stop.setText(QtGui.QApplication.translate("Dialog", "Stop", None, QtGui.QApplication.UnicodeUTF8))
-        self.label.setText(QtGui.QApplication.translate("Dialog", "", None, QtGui.QApplication.UnicodeUTF8))
+    def retranslateUi(self, MainWindow):
+        MainWindow.setWindowTitle(QtGui.QApplication.translate("MainWindow", "Tomacco", None, QtGui.QApplication.UnicodeUTF8))
+        self.btn_start.setText(QtGui.QApplication.translate("MainWindow", "Start \n"
+"Tomacco", None, QtGui.QApplication.UnicodeUTF8))
+        self.btn_stop.setText(QtGui.QApplication.translate("MainWindow", "Stop \n"
+"Tomacco", None, QtGui.QApplication.UnicodeUTF8))
+        self.btn_spause.setText(QtGui.QApplication.translate("MainWindow", "Short Pause", None, QtGui.QApplication.UnicodeUTF8))
+        self.btn_lpause.setText(QtGui.QApplication.translate("MainWindow", "Long Pause", None, QtGui.QApplication.UnicodeUTF8))
 
