@@ -71,10 +71,10 @@ class MainWindow(QtGui.QMainWindow):
         self.fms.next_state(self.evt, t)
         self.update_windonw()
 
-    def view_time(self):
+    def view_time(self, stime):
         amount = self.fms.remining_time(self.evt, time.time())
         remining_time = time.strftime("%M:%S",
-                                      time.gmtime(self.fms.tomat - amount))
+                                      time.gmtime(stime - amount))
         return str(remining_time)
 
     def update_windonw(self):
@@ -93,7 +93,7 @@ class MainWindow(QtGui.QMainWindow):
 
         elif isinstance(self.fms.state, state.TomatoState):
             self.ui.status_bar.showMessage('Counting...')
-            self.ui.lcd.display(self.view_time())
+            self.ui.lcd.display(self.view_time(self.fms.tomat))
             self.ui.btn_start.hide()
             self.ui.btn_stop.show()
             self.stopAction.setDisabled(False)
@@ -115,7 +115,7 @@ class MainWindow(QtGui.QMainWindow):
 
         elif isinstance(self.fms.state, state.ShortState):
             self.ui.status_bar.showMessage('Short Pause')
-            self.ui.lcd.display(self.view_time())
+            self.ui.lcd.display(self.view_time(self.fms.spause))
             self.ui.btn_lpause.hide()
             self.ui.btn_spause.hide()
             self.ui.btn_stop.show()
@@ -126,7 +126,7 @@ class MainWindow(QtGui.QMainWindow):
 
         elif isinstance(self.fms.state, state.LongState):
             self.ui.status_bar.showMessage('Long Pause')
-            self.ui.lcd.display(self.view_time())
+            self.ui.lcd.display(self.view_time(self.fms.lpause))
             self.ui.btn_lpause.hide()
             self.ui.btn_spause.hide()
             self.ui.btn_stop.show()
