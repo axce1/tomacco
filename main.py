@@ -71,11 +71,18 @@ class MainWindow(QtGui.QMainWindow):
         self.fms.next_state(self.evt, t)
         self.update_windonw()
 
+    def view_time(self):
+        amount = self.fms.remining_time(self.evt, time.time())
+        remining_time = time.strftime("%M:%S",
+                                      time.gmtime(self.fms.tomat - amount))
+        return str(remining_time)
+
     def update_windonw(self):
         if isinstance(self.fms.state, state.InitState):
             icon = QtGui.QIcon('images/init-tomat.png')
             self.trayIcon.setIcon(icon)
-            self.ui.status_bar.showMessage("Tomacco - " + str(self.fms.tomacco))
+            self.ui.status_bar.showMessage("Tomacco - "
+                                           + str(self.fms.tomacco))
             self.ui.lcd.display(str('00:00'))
             self.ui.btn_start.show()
             self.ui.btn_stop.hide()
@@ -85,9 +92,8 @@ class MainWindow(QtGui.QMainWindow):
             self.longAction.setDisabled(True)
 
         elif isinstance(self.fms.state, state.TomatoState):
-            lcd_time = self.fms.remining_time(self.evt, time.time())
             self.ui.status_bar.showMessage('Counting...')
-            self.ui.lcd.display(str(lcd_time))
+            self.ui.lcd.display(self.view_time())
             self.ui.btn_start.hide()
             self.ui.btn_stop.show()
             self.stopAction.setDisabled(False)
@@ -97,18 +103,19 @@ class MainWindow(QtGui.QMainWindow):
 
         elif isinstance(self.fms.state, state.SelectState):
             self.ui.status_bar.showMessage('Select Pause')
-            self.ui.lcd.display(str('00:00'))
+            self.ui.lcd.display(str('--:--'))
             self.ui.btn_start.hide()
             self.ui.btn_stop.hide()
             self.ui.btn_lpause.show()
             self.ui.btn_spause.show()
             self.stopAction.setDisabled(True)
             self.startAction.setDisabled(True)
+            self.shortAction.setDisabled(False)
+            self.longAction.setDisabled(False)
 
         elif isinstance(self.fms.state, state.ShortState):
-            status_bar_time = self.fms.remining_time(self.evt, time.time())
             self.ui.status_bar.showMessage('Short Pause')
-            self.ui.lcd.display(str(status_bar_time))
+            self.ui.lcd.display(self.view_time())
             self.ui.btn_lpause.hide()
             self.ui.btn_spause.hide()
             self.ui.btn_stop.show()
@@ -118,9 +125,8 @@ class MainWindow(QtGui.QMainWindow):
             self.longAction.setDisabled(True)
 
         elif isinstance(self.fms.state, state.LongState):
-            status_bar_time = self.fms.remining_time(self.evt, time.time())
             self.ui.status_bar.showMessage('Long Pause')
-            self.ui.lcd.display(str(status_bar_time))
+            self.ui.lcd.display(self.view_time())
             self.ui.btn_lpause.hide()
             self.ui.btn_spause.hide()
             self.ui.btn_stop.show()
@@ -130,7 +136,7 @@ class MainWindow(QtGui.QMainWindow):
             self.longAction.setDisabled(True)
 
     def forse_stop(self):
-        self.fms.pomidor = 0
+        self.fms.tomacco = 0
         self.fms.next_state(state.StopEvent(), time.time())
 
     def set_position(self):
@@ -235,11 +241,11 @@ class DialogWindow(QtGui.QDialog, dialog.Ui_Dialog):
     def write_settings(self):
         section = "Settings"
         config.write_conf(section, 'ttime',
-                            self.spinTomat.value())
+                          self.spinTomat.value())
         config.write_conf(section, 'lpause',
-                            self.spinLong.value())
+                          self.spinLong.value())
         config.write_conf(section, 'spause',
-                            self.spinShort.value())
+                          self.spinShort.value())
         self.update_time()
 
     def update_time(self):

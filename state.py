@@ -1,6 +1,3 @@
-import time
-import os
-
 from modules import config
 
 
@@ -92,8 +89,7 @@ class LogicFMS():
     def remining_time(self, event, stime):
         if isinstance(event, TickEvent):
             count = stime - self.state.get_time()
-            remining_time = time.strftime("%M:%S", time.gmtime(count))
-            return remining_time
+            return count
 
     def next_state(self, event, stime):
         if isinstance(self.state, InitState):
@@ -129,7 +125,7 @@ class LogicFMS():
             elif isinstance(event, LongEvent):
                 self.state = LongState(stime)
             elif isinstance(event, StartEvent):
-                self.state = StartState(stime)
+                self.state = TomatoState(stime)
 
         elif isinstance(self.state, LongState):
             if isinstance(event, TickEvent):
@@ -142,4 +138,4 @@ class LogicFMS():
             elif isinstance(event, ShortEvent):
                 self.state = ShortState(stime)
             elif isinstance(event, StartEvent):
-                 self.state = StartState(stime)
+                 self.state = TomatoState(stime)
