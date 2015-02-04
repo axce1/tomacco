@@ -140,11 +140,9 @@ class MainWindow(QtGui.QMainWindow):
         self.fms.next_state(state.StopEvent(), time.time())
 
     def set_position(self):
-        ''' temp method need read data from config '''
-        screen = QtGui.QDesktopWidget().screenGeometry()
-        size = self.geometry()
-        self.move(screen.width() - size.width(),
-                  screen.height() - (size.height()*4))
+        self.width = config.read_conf("Settings", "width")
+        self.height = config.read_conf("Settings", "height")
+        self.move(self.width, self.height)
 
     def create_tray_icon(self):
         icon = QtGui.QIcon('images/init-tomat.png')
@@ -180,10 +178,17 @@ class MainWindow(QtGui.QMainWindow):
         settingAction = menu.addAction("Settings")
         settingAction.triggered.connect(self.dialog.show)
         exitAction = menu.addAction("Quit")
-        exitAction.triggered.connect(QtGui.qApp.quit)
+        exitAction.triggered.connect(self.quit_app)
         self.trayIcon = QtGui.QSystemTrayIcon(self)
         self.trayIcon.setContextMenu(menu)
         self.trayIcon.setIcon(icon)
+
+    def quit_app(self):
+        config.write_conf("Settings", "width",
+                          self.x())
+        config.write_conf("Settings", "height",
+                          self.y())
+        QtGui.qApp.quit()
 
     def start_tray(self):
         self.on_btn_start()
@@ -266,6 +271,7 @@ if __name__ == '__main__':
     app.setApplicationName('TomaccoTimer')
 
     main = MainWindow()
+    # main.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
     main.show()
 
     sys.exit(app.exec_())

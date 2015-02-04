@@ -12,6 +12,8 @@ def create_conf():
     config.set("Settings", "ttime", "25")
     config.set("Settings", "lpause", "5")
     config.set("Settings", "spause", "3")
+    config.set("Settings", "width", "0")
+    config.set("Settings", "height", "0")
 
     with open(path, "w") as config_file:
         config.write(config_file)
