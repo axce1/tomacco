@@ -30,15 +30,11 @@ class LongEvent:
 
 
 class InitState(State):
-
-    def __init__(self):
-        self.name = 'init'
+    pass
 
 
 class SelectState(State):
-
-    def __init__(self):
-        self.name = 'select'
+    pass
 
 
 class TomatoState(State):
@@ -48,7 +44,6 @@ class TomatoState(State):
         stime - state start time
         """
         self.stime = stime
-        self.name = 'tomato'
 
     def get_time(self):
         return self.stime
@@ -58,7 +53,6 @@ class ShortState(State):
 
     def __init__(self, stime):
         self.stime = stime
-        self.name = 'short'
 
     def get_time(self):
         return self.stime
@@ -68,7 +62,6 @@ class LongState(State):
 
     def __init__(self, stime):
         self.stime = stime
-        self.name = 'long'
 
     def get_time(self):
         return self.stime
@@ -78,13 +71,6 @@ class LogicFMS():
     def __init__(self):
         self.state = InitState()
         self.tomacco = 0
-
-    def set_state(self, name):
-        self.state = name
-
-    @property
-    def get_state(self):
-        return self.state.name
 
     def remining_time(self, event, stime):
         if isinstance(event, TickEvent):

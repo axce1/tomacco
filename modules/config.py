@@ -50,7 +50,6 @@ def write_conf(section, option, value):
 
 def notify(body):
         image = os.path.abspath('images/red-tomat.png')
-        cmd=['notify-send', '--icon=%s' % image]
+        cmd = ['notify-send', '--icon=%s' % image]
         cmd.extend(['TomatoTimer', body.encode('utf-8')])
-        subprocess.call(cmd, stderr = open('/dev/null', 'a'))
-
+        subprocess.call(cmd, stderr=open('/dev/null', 'a'))
