@@ -1,9 +1,9 @@
-import os.path
+import os
 import subprocess
 import configparser
 
 
-path = 'tomatotimer.conf'
+path = os.getenv('HOME') + '/.config/tomacco/tomacco.conf'
 
 
 def create_conf():
@@ -14,6 +14,9 @@ def create_conf():
     config.set("Settings", "spause", "3")
     config.set("Settings", "width", "0")
     config.set("Settings", "height", "0")
+
+    if not os.path.exists(os.path.dirname(path)):
+        os.makedirs(os.path.dirname(path))
 
     with open(path, "w") as config_file:
         config.write(config_file)
