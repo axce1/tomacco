@@ -103,6 +103,30 @@ class MainWindow(QtGui.QMainWindow):
 
         elif isinstance(self.fms.state, state.SelectState):
             self.ui.status_bar.showMessage('Select Pause')
+            icon = QtGui.QIcon('images/init-tomat.png')
+            self.trayIcon.setIcon(icon)
+            self.ui.status_bar.showMessage("Tomacco - "
+                                           + str(self.fms.tomacco))
+            self.ui.lcd.display(str('00:00'))
+            self.ui.btn_start.show()
+            self.ui.btn_stop.hide()
+            self.startAction.setDisabled(False)
+            self.stopAction.setDisabled(True)
+            self.shortAction.setDisabled(True)
+            self.longAction.setDisabled(True)
+
+        elif isinstance(self.fms.state, state.TomatoState):
+            self.ui.status_bar.showMessage('Counting...')
+            self.ui.lcd.display(self.view_time(self.fms.tomat))
+            self.ui.btn_start.hide()
+            self.ui.btn_stop.show()
+            self.stopAction.setDisabled(False)
+            self.startAction.setDisabled(True)
+            self.shortAction.setDisabled(True)
+            self.longAction.setDisabled(True)
+
+        elif isinstance(self.fms.state, state.SelectState):
+            self.ui.status_bar.showMessage('Select Pause')
             self.ui.lcd.display(str('--:--'))
             self.ui.btn_start.hide()
             self.ui.btn_stop.hide()
@@ -211,7 +235,7 @@ class MainWindow(QtGui.QMainWindow):
             config.notify('Long Pause Start')
 
     def on_trayicon_activated(self, reason):
-        if reason == QtGui.QSystemTrayIcon.DoubleClick:
+        if reason == QtGui.QSystemTrayIcon.Trigger:
             if self.isHidden():
                 self.show()
             else:
