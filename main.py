@@ -203,7 +203,9 @@ class MainWindow(QtGui.QMainWindow):
         settingAction.triggered.connect(self.dialog.show)
         exitAction = menu.addAction("Quit")
         exitAction.triggered.connect(self.quit_app)
+
         self.trayIcon = QtGui.QSystemTrayIcon(self)
+        self.trayIcon.setToolTip("Tomacco - " + str(self.fms.tomacco))
         self.trayIcon.setContextMenu(menu)
         self.trayIcon.setIcon(icon)
 
