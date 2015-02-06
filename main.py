@@ -30,7 +30,7 @@ class MainWindow(QMainWindow):
         # timer
         self.timer = QtCore.QTimer(self)
         self.timer.timeout.connect(self.update_status_bar)
-        self.timer.start(100)
+        # self.timer.start(700)
 
         # lcd
         self.ui.lcd.display('00:00')
@@ -50,6 +50,7 @@ class MainWindow(QMainWindow):
         icon = QtGui.QIcon('images/red-tomat.png')
         self.trayIcon.setIcon(icon)
         self.fms.next_state(state.StartEvent, time.time())
+        self.timer.start(700)
 
     def on_btn_stop(self):
         icon = QtGui.QIcon('images/init-tomat.png')
@@ -61,11 +62,13 @@ class MainWindow(QMainWindow):
         icon = QtGui.QIcon('images/short-tomat.png')
         self.trayIcon.setIcon(icon)
         self.fms.next_state(state.ShortEvent(), time.time())
+        self.timer.start(700)
 
     def on_btn_lpause(self):
         icon = QtGui.QIcon('images/long-tomat.png')
         self.trayIcon.setIcon(icon)
         self.fms.next_state(state.LongEvent(), time.time())
+        self.timer.start(700)
 
     def update_status_bar(self):
         t = time.time()
@@ -94,6 +97,7 @@ class MainWindow(QMainWindow):
             self.stopAction.setDisabled(True)
             self.shortAction.setDisabled(True)
             self.longAction.setDisabled(True)
+            self.timer.stop()
 
         elif isinstance(self.fms.state, state.TomatoState):
             self.ui.status_bar.showMessage('Counting...')
@@ -120,11 +124,12 @@ class MainWindow(QMainWindow):
             self.startAction.setDisabled(True)
             self.shortAction.setDisabled(False)
             self.longAction.setDisabled(False)
+            self.timer.stop()
 
         elif isinstance(self.fms.state, state.ShortState):
             self.ui.status_bar.showMessage('Short Pause')
             self.ui.lcd.display(self.view_time(self.fms.spause))
-            self.ui.btn_lpause.hide()
+            elf.ui.btn_lpause.hide()
             self.ui.btn_spause.hide()
             self.ui.btn_stop.show()
             self.stopAction.setDisabled(False)
