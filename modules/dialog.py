@@ -2,47 +2,47 @@
 
 # Form implementation generated from reading ui file 'dialog.ui'
 #
-# Created: Wed Jan 28 15:59:43 2015
-#      by: pyside-uic 0.2.15 running on PySide 1.2.2
+# Created: Fri Feb  6 15:16:50 2015
+#      by: PyQt5 UI code generator 5.4
 #
 # WARNING! All changes made in this file will be lost!
 
-from PySide import QtCore, QtGui
+from PyQt5 import QtCore, QtGui, QtWidgets
 
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
         Dialog.resize(177, 131)
-        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Fixed)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(Dialog.sizePolicy().hasHeightForWidth())
         Dialog.setSizePolicy(sizePolicy)
-        self.ttime = QtGui.QLabel(Dialog)
+        self.ttime = QtWidgets.QLabel(Dialog)
         self.ttime.setGeometry(QtCore.QRect(10, 10, 101, 16))
         self.ttime.setObjectName("ttime")
-        self.lptime = QtGui.QLabel(Dialog)
+        self.lptime = QtWidgets.QLabel(Dialog)
         self.lptime.setGeometry(QtCore.QRect(10, 40, 101, 16))
         self.lptime.setObjectName("lptime")
-        self.sptime = QtGui.QLabel(Dialog)
+        self.sptime = QtWidgets.QLabel(Dialog)
         self.sptime.setGeometry(QtCore.QRect(10, 70, 101, 16))
         self.sptime.setObjectName("sptime")
-        self.spinTomat = QtGui.QSpinBox(Dialog)
+        self.spinTomat = QtWidgets.QSpinBox(Dialog)
         self.spinTomat.setGeometry(QtCore.QRect(128, 10, 41, 22))
         self.spinTomat.setMinimum(1)
         self.spinTomat.setObjectName("spinTomat")
-        self.spinShort = QtGui.QSpinBox(Dialog)
+        self.spinShort = QtWidgets.QSpinBox(Dialog)
         self.spinShort.setGeometry(QtCore.QRect(128, 70, 41, 22))
         self.spinShort.setMinimum(1)
         self.spinShort.setObjectName("spinShort")
-        self.spinLong = QtGui.QSpinBox(Dialog)
+        self.spinLong = QtWidgets.QSpinBox(Dialog)
         self.spinLong.setGeometry(QtCore.QRect(128, 40, 41, 22))
         self.spinLong.setMinimum(1)
         self.spinLong.setObjectName("spinLong")
-        self.btnCnl = QtGui.QPushButton(Dialog)
+        self.btnCnl = QtWidgets.QPushButton(Dialog)
         self.btnCnl.setGeometry(QtCore.QRect(10, 100, 75, 26))
         self.btnCnl.setObjectName("btnCnl")
-        self.btnOk = QtGui.QPushButton(Dialog)
+        self.btnOk = QtWidgets.QPushButton(Dialog)
         self.btnOk.setGeometry(QtCore.QRect(90, 100, 75, 26))
         self.btnOk.setObjectName("btnOk")
 
@@ -54,10 +54,11 @@ class Ui_Dialog(object):
         Dialog.setTabOrder(self.btnOk, self.btnCnl)
 
     def retranslateUi(self, Dialog):
-        Dialog.setWindowTitle(QtGui.QApplication.translate("Dialog", "Dialog", None, QtGui.QApplication.UnicodeUTF8))
-        self.ttime.setText(QtGui.QApplication.translate("Dialog", "Tomacco Time", None, QtGui.QApplication.UnicodeUTF8))
-        self.lptime.setText(QtGui.QApplication.translate("Dialog", "Long Pause Time", None, QtGui.QApplication.UnicodeUTF8))
-        self.sptime.setText(QtGui.QApplication.translate("Dialog", "Short Pause Time", None, QtGui.QApplication.UnicodeUTF8))
-        self.btnCnl.setText(QtGui.QApplication.translate("Dialog", "Cancel", None, QtGui.QApplication.UnicodeUTF8))
-        self.btnOk.setText(QtGui.QApplication.translate("Dialog", "Ok", None, QtGui.QApplication.UnicodeUTF8))
+        _translate = QtCore.QCoreApplication.translate
+        Dialog.setWindowTitle(_translate("Dialog", "Dialog"))
+        self.ttime.setText(_translate("Dialog", "Tomato Time"))
+        self.lptime.setText(_translate("Dialog", "Long Pause Time"))
+        self.sptime.setText(_translate("Dialog", "Short Pause Time"))
+        self.btnCnl.setText(_translate("Dialog", "Cancel"))
+        self.btnOk.setText(_translate("Dialog", "Ok"))
 

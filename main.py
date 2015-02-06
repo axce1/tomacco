@@ -1,6 +1,8 @@
 import sys
 import time
-from PySide import QtCore, QtGui
+# from PySide import QtCore, QtGui
+from PyQt5.QtWidgets import QApplication, QMainWindow, QDialog, QSystemTrayIcon, QMenu, qApp
+from PyQt5 import QtCore, QtGui
 
 from modules import form
 from modules import dialog
@@ -9,7 +11,7 @@ import state
 
 
 #TODO убрать notify из модели
-class MainWindow(QtGui.QMainWindow):
+class MainWindow(QMainWindow):
     def __init__(self, parent=None):
         super().__init__()
         self.ui = form.Ui_MainWindow()
@@ -152,7 +154,7 @@ class MainWindow(QtGui.QMainWindow):
 
     def create_tray_icon(self):
         icon = QtGui.QIcon('images/init-tomat.png')
-        menu = QtGui.QMenu(self)
+        menu = QMenu(self)
 
         self.startAction = menu.addAction("Start Tomacco")
         self.startAction.triggered.connect(self.start_tray)
@@ -186,7 +188,7 @@ class MainWindow(QtGui.QMainWindow):
         exitAction = menu.addAction("Quit")
         exitAction.triggered.connect(self.quit_app)
 
-        self.trayIcon = QtGui.QSystemTrayIcon(self)
+        self.trayIcon = QSystemTrayIcon(self)
         self.trayIcon.setContextMenu(menu)
         self.trayIcon.setIcon(icon)
 
@@ -195,7 +197,7 @@ class MainWindow(QtGui.QMainWindow):
                           self.x())
         config.write_conf("Settings", "height",
                           self.y())
-        QtGui.qApp.quit()
+        qApp.quit()
 
     def start_tray(self):
         self.on_btn_start()
@@ -218,7 +220,7 @@ class MainWindow(QtGui.QMainWindow):
             config.notify('Long Pause Start')
 
     def on_trayicon_activated(self, reason):
-        if reason == QtGui.QSystemTrayIcon.Trigger:
+        if reason == QSystemTrayIcon.Trigger:
             if self.isHidden():
                 self.show()
             else:
@@ -229,7 +231,7 @@ class MainWindow(QtGui.QMainWindow):
         self.hide()
 
 
-class DialogWindow(QtGui.QDialog, dialog.Ui_Dialog):
+class DialogWindow(QDialog, dialog.Ui_Dialog):
     def __init__(self, window, parent=None):
         super().__init__(parent)
         self.setupUi(self)
@@ -274,7 +276,7 @@ class DialogWindow(QtGui.QDialog, dialog.Ui_Dialog):
 
 
 if __name__ == '__main__':
-    app = QtGui.QApplication(sys.argv)
+    app = QApplication(sys.argv)
     app.setApplicationName('TomaccoTimer')
 
     main = MainWindow()
