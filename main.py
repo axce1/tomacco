@@ -1,8 +1,6 @@
 import sys
 import time
-# from PySide import QtCore, QtGui
-from PyQt5.QtWidgets import QApplication, QMainWindow, QDialog, QSystemTrayIcon, QMenu, qApp
-from PyQt5 import QtCore, QtGui
+from PyQt5 import QtWidgets, QtCore, QtGui
 
 from modules import form
 from modules import dialog
@@ -11,7 +9,7 @@ import state
 
 
 #TODO убрать notify из модели
-class MainWindow(QMainWindow):
+class MainWindow(QtWidgets.QMainWindow):
     def __init__(self, parent=None):
         super().__init__()
         self.ui = form.Ui_MainWindow()
@@ -29,7 +27,7 @@ class MainWindow(QMainWindow):
 
         # timer
         self.timer = QtCore.QTimer(self)
-        self.timer.timeout.connect(self.update_status_bar)
+        self.timer.timeout.connect(self.update_app)
         # self.timer.start(700)
 
         # lcd
@@ -55,7 +53,6 @@ class MainWindow(QMainWindow):
     def on_btn_stop(self):
         icon = QtGui.QIcon('images/init-tomat.png')
         self.trayIcon.setIcon(icon)
-        #XXX dont work state.StopEvent, only state.StopEvent()
         self.fms.next_state(state.StopEvent(), time.time())
 
     def on_btn_spause(self):
@@ -70,13 +67,13 @@ class MainWindow(QMainWindow):
         self.fms.next_state(state.LongEvent(), time.time())
         self.timer.start(700)
 
-    def update_status_bar(self):
+    def update_app(self):
         t = time.time()
         self.evt = state.TickEvent()
         self.fms.next_state(self.evt, t)
         self.trayIcon.setToolTip("Tomacco - " +
                                  str(self.fms.tomacco))
-        self.update_windonw()
+        self.update_window()
 
     def view_time(self, stime):
         amount = self.fms.remining_time(self.evt, time.time())
@@ -84,7 +81,7 @@ class MainWindow(QMainWindow):
                                       time.gmtime(stime - amount))
         return str(remining_time)
 
-    def update_windonw(self):
+    def update_window(self):
         if isinstance(self.fms.state, state.InitState):
             icon = QtGui.QIcon('images/init-tomat.png')
             self.trayIcon.setIcon(icon)
@@ -159,7 +156,7 @@ class MainWindow(QMainWindow):
 
     def create_tray_icon(self):
         icon = QtGui.QIcon('images/init-tomat.png')
-        menu = QMenu(self)
+        menu = QtWidgets.QMenu(self)
 
         self.startAction = menu.addAction("Start Tomacco")
         self.startAction.triggered.connect(self.start_tray)
@@ -193,7 +190,7 @@ class MainWindow(QMainWindow):
         exitAction = menu.addAction("Quit")
         exitAction.triggered.connect(self.quit_app)
 
-        self.trayIcon = QSystemTrayIcon(self)
+        self.trayIcon = QtWidgets.QSystemTrayIcon(self)
         self.trayIcon.setContextMenu(menu)
         self.trayIcon.setIcon(icon)
 
@@ -202,7 +199,7 @@ class MainWindow(QMainWindow):
                           self.x())
         config.write_conf("Settings", "height",
                           self.y())
-        qApp.quit()
+        QtWidgets.qApp.quit()
 
     def start_tray(self):
         self.on_btn_start()
@@ -225,7 +222,7 @@ class MainWindow(QMainWindow):
             config.notify('Long Pause Start')
 
     def on_trayicon_activated(self, reason):
-        if reason == QSystemTrayIcon.Trigger:
+        if reason == QtWidgets.QSystemTrayIcon.Trigger:
             if self.isHidden():
                 self.show()
             else:
@@ -236,7 +233,7 @@ class MainWindow(QMainWindow):
         self.hide()
 
 
-class DialogWindow(QDialog, dialog.Ui_Dialog):
+class DialogWindow(QtWidgets.QDialog, dialog.Ui_Dialog):
     def __init__(self, window, parent=None):
         super().__init__(parent)
         self.setupUi(self)
@@ -281,11 +278,10 @@ class DialogWindow(QDialog, dialog.Ui_Dialog):
 
 
 if __name__ == '__main__':
-    app = QApplication(sys.argv)
+    app = QtWidgets.QApplication(sys.argv)
     app.setApplicationName('TomaccoTimer')
 
     main = MainWindow()
-    # main.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
     main.show()
 
     sys.exit(app.exec_())
