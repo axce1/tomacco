@@ -28,7 +28,8 @@ class MainWindow(QtWidgets.QMainWindow):
         # timer
         self.timer = QtCore.QTimer(self)
         self.timer.timeout.connect(self.update_app)
-        # self.timer.start(700)
+
+        self.tomacco_label = "Tomacco - " + str(self.fms.tomacco)
 
         # lcd
         self.ui.lcd.display('00:00')
@@ -48,31 +49,30 @@ class MainWindow(QtWidgets.QMainWindow):
         icon = QtGui.QIcon('images/red-tomat.png')
         self.trayIcon.setIcon(icon)
         self.fms.next_state(state.StartEvent, time.time())
-        self.timer.start(700)
+        self.timer.start(100)
 
     def on_btn_stop(self):
         icon = QtGui.QIcon('images/init-tomat.png')
         self.trayIcon.setIcon(icon)
         self.fms.next_state(state.StopEvent(), time.time())
+        # self.timer.stop()
 
     def on_btn_spause(self):
         icon = QtGui.QIcon('images/short-tomat.png')
         self.trayIcon.setIcon(icon)
         self.fms.next_state(state.ShortEvent(), time.time())
-        self.timer.start(700)
+        self.timer.start(100)
 
     def on_btn_lpause(self):
         icon = QtGui.QIcon('images/long-tomat.png')
         self.trayIcon.setIcon(icon)
         self.fms.next_state(state.LongEvent(), time.time())
-        self.timer.start(700)
+        self.timer.start(100)
 
     def update_app(self):
         t = time.time()
         self.evt = state.TickEvent()
         self.fms.next_state(self.evt, t)
-        self.trayIcon.setToolTip("Tomacco - " +
-                                 str(self.fms.tomacco))
         self.update_window()
 
     def view_time(self, stime):
@@ -85,6 +85,7 @@ class MainWindow(QtWidgets.QMainWindow):
         if isinstance(self.fms.state, state.InitState):
             icon = QtGui.QIcon('images/init-tomat.png')
             self.trayIcon.setIcon(icon)
+            self.trayIcon.setToolTip(self.tomacco_label)
             self.ui.status_bar.showMessage("Tomacco - " +
                                            str(self.fms.tomacco))
             self.ui.lcd.display(str('00:00'))
@@ -97,8 +98,12 @@ class MainWindow(QtWidgets.QMainWindow):
             self.timer.stop()
 
         elif isinstance(self.fms.state, state.TomatoState):
-            self.ui.status_bar.showMessage('Counting...')
+            self.ui.status_bar.showMessage(self.tomacco_label +
+                                           ' Counting...')
             self.ui.lcd.display(self.view_time(self.fms.tomat))
+            self.trayIcon.setToolTip(self.tomacco_label +
+                                     '\n' +
+                                     self.view_time(self.fms.tomat))
             self.ui.btn_start.hide()
             self.ui.btn_stop.show()
             self.stopAction.setDisabled(False)
@@ -109,9 +114,9 @@ class MainWindow(QtWidgets.QMainWindow):
         elif isinstance(self.fms.state, state.SelectState):
             icon = QtGui.QIcon('images/init-tomat.png')
             self.trayIcon.setIcon(icon)
-            self.ui.status_bar.showMessage("Tomacco - "
-                                           + str(self.fms.tomacco))
-            self.ui.status_bar.showMessage('Select Pause')
+            self.trayIcon.setToolTip(self.tomacco_label)
+            self.ui.status_bar.showMessage(self.tomacco_label +
+                                           " Select Pause")
             self.ui.lcd.display(str('--:--'))
             self.ui.btn_start.hide()
             self.ui.btn_stop.hide()
@@ -124,22 +129,32 @@ class MainWindow(QtWidgets.QMainWindow):
             self.timer.stop()
 
         elif isinstance(self.fms.state, state.ShortState):
-            self.ui.status_bar.showMessage('Short Pause')
+            self.ui.status_bar.showMessage(self.tomacco_label +
+                                           " Short Pause")
             self.ui.lcd.display(self.view_time(self.fms.spause))
-            elf.ui.btn_lpause.hide()
+            self.trayIcon.setToolTip(self.tomacco_label +
+                                     '\n' +
+                                     self.view_time(self.fms.spause))
+            self.ui.btn_lpause.hide()
             self.ui.btn_spause.hide()
             self.ui.btn_stop.show()
+            self.ui.btn_stop.setText('Stop \n Short Pause')
             self.stopAction.setDisabled(False)
             self.startAction.setDisabled(True)
             self.shortAction.setDisabled(True)
             self.longAction.setDisabled(True)
 
         elif isinstance(self.fms.state, state.LongState):
-            self.ui.status_bar.showMessage('Long Pause')
+            self.ui.status_bar.showMessage(self.tomacco_label +
+                                           " Long Pause")
             self.ui.lcd.display(self.view_time(self.fms.lpause))
+            self.trayIcon.setToolTip(self.tomacco_label +
+                                     '\n' +
+                                     self.view_time(self.fms.lpause))
             self.ui.btn_lpause.hide()
             self.ui.btn_spause.hide()
             self.ui.btn_stop.show()
+            self.ui.btn_stop.setText('Stop \n Long Pause')
             self.stopAction.setDisabled(False)
             self.startAction.setDisabled(True)
             self.shortAction.setDisabled(True)
@@ -161,7 +176,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.startAction = menu.addAction("Start Tomacco")
         self.startAction.triggered.connect(self.start_tray)
 
-        self.stopAction = menu.addAction("Stop Tomacco")
+        self.stopAction = menu.addAction("Stop")
         self.stopAction.triggered.connect(self.stop_tray)
 
         self.shortAction = menu.addAction("Short Pause")
