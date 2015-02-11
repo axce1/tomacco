@@ -20,6 +20,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.dialog.update_time()
 
         # init show window
+        self.setWindowTitle("Tomacco")
         self.set_position()
         self.ui.btn_lpause.hide()
         self.ui.btn_spause.hide()
