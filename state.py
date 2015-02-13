@@ -121,6 +121,7 @@ class LogicFMS():
                     self.tomacco = 0
             elif isinstance(event, StopEvent):
                 self.state = InitState()
+                self.tomacco = 0
             elif isinstance(event, ShortEvent):
                 self.state = ShortState(stime)
             elif isinstance(event, StartEvent):
