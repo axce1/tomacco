@@ -93,6 +93,8 @@ class MainWindow(QtWidgets.QMainWindow):
             self.ui.lcd.display(str('00:00'))
             self.ui.btn_start.show()
             self.ui.btn_stop.hide()
+            self.ui.btn_lpause.hide()
+            self.ui.btn_spause.hide()
             self.startAction.setDisabled(False)
             self.stopAction.setDisabled(True)
             self.shortAction.setDisabled(True)
@@ -164,7 +166,8 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def forse_stop(self):
         self.fms.tomacco = 0
-        self.fms.next_state(state.StopEvent(), time.time())
+        self.fms.set_state(state.InitState())
+        self.update_window()
 
     def set_position(self):
         self.width = config.read_conf("Settings", "width")

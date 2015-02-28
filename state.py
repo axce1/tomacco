@@ -77,6 +77,9 @@ class LogicFMS():
             count = stime - self.state.get_time()
             return count
 
+    def set_state(self, state):
+        self.state = state
+
     def next_state(self, event, stime):
         if isinstance(self.state, InitState):
             if event == StartEvent:
