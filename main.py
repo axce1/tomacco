@@ -21,6 +21,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
         # init show window
         self.setWindowTitle("Tomacco")
+        self.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
         self.set_position()
         self.ui.btn_lpause.hide()
         self.ui.btn_spause.hide()
