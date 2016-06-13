@@ -1,5 +1,6 @@
 import sys
 import time
+import signal
 from PyQt5 import QtWidgets, QtCore, QtGui
 
 from modules import form
@@ -8,7 +9,7 @@ from modules import config
 import state
 
 
-#TODO убрать notify из модели
+# TODO убрать notify из модели
 class MainWindow(QtWidgets.QMainWindow):
     def __init__(self, parent=None):
         super().__init__()
@@ -299,6 +300,7 @@ class DialogWindow(QtWidgets.QDialog, dialog.Ui_Dialog):
 
 
 if __name__ == '__main__':
+    signal.signal(signal.SIGINT, signal.SIG_DFL)
     app = QtWidgets.QApplication(sys.argv)
     app.setApplicationName('TomaccoTimer')
 
