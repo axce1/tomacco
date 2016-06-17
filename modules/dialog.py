@@ -1,18 +1,31 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'dialog.ui'
+# Form implementation generated from reading ui file 'dialog_commands.ui'
 #
-# Created: Fri Feb  6 15:16:50 2015
-#      by: PyQt5 UI code generator 5.4
+# Created by: PyQt4 UI code generator 4.11.4
 #
 # WARNING! All changes made in this file will be lost!
 
 from PyQt4 import QtCore, QtGui
 
+try:
+    _fromUtf8 = QtCore.QString.fromUtf8
+except AttributeError:
+    def _fromUtf8(s):
+        return s
+
+try:
+    _encoding = QtGui.QApplication.UnicodeUTF8
+    def _translate(context, text, disambig):
+        return QtGui.QApplication.translate(context, text, disambig, _encoding)
+except AttributeError:
+    def _translate(context, text, disambig):
+        return QtGui.QApplication.translate(context, text, disambig)
+
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
-        Dialog.setObjectName("Dialog")
-        Dialog.resize(177, 131)
+        Dialog.setObjectName(_fromUtf8("Dialog"))
+        Dialog.resize(178, 275)
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -20,33 +33,52 @@ class Ui_Dialog(object):
         Dialog.setSizePolicy(sizePolicy)
         self.ttime = QtGui.QLabel(Dialog)
         self.ttime.setGeometry(QtCore.QRect(10, 10, 101, 16))
-        self.ttime.setObjectName("ttime")
+        self.ttime.setObjectName(_fromUtf8("ttime"))
         self.lptime = QtGui.QLabel(Dialog)
         self.lptime.setGeometry(QtCore.QRect(10, 40, 101, 16))
-        self.lptime.setObjectName("lptime")
+        self.lptime.setObjectName(_fromUtf8("lptime"))
         self.sptime = QtGui.QLabel(Dialog)
         self.sptime.setGeometry(QtCore.QRect(10, 70, 101, 16))
-        self.sptime.setObjectName("sptime")
+        self.sptime.setObjectName(_fromUtf8("sptime"))
         self.spinTomat = QtGui.QSpinBox(Dialog)
         self.spinTomat.setGeometry(QtCore.QRect(128, 10, 41, 22))
         self.spinTomat.setMinimum(1)
-        self.spinTomat.setObjectName("spinTomat")
+        self.spinTomat.setObjectName(_fromUtf8("spinTomat"))
         self.spinShort = QtGui.QSpinBox(Dialog)
         self.spinShort.setGeometry(QtCore.QRect(128, 70, 41, 22))
         self.spinShort.setMinimum(1)
-        self.spinShort.setObjectName("spinShort")
+        self.spinShort.setObjectName(_fromUtf8("spinShort"))
         self.spinLong = QtGui.QSpinBox(Dialog)
         self.spinLong.setGeometry(QtCore.QRect(128, 40, 41, 22))
         self.spinLong.setMinimum(1)
-        self.spinLong.setObjectName("spinLong")
+        self.spinLong.setObjectName(_fromUtf8("spinLong"))
         self.btnCnl = QtGui.QPushButton(Dialog)
-        self.btnCnl.setGeometry(QtCore.QRect(10, 100, 75, 26))
-        self.btnCnl.setObjectName("btnCnl")
+        self.btnCnl.setGeometry(QtCore.QRect(10, 240, 75, 26))
+        self.btnCnl.setObjectName(_fromUtf8("btnCnl"))
         self.btnOk = QtGui.QPushButton(Dialog)
-        self.btnOk.setGeometry(QtCore.QRect(90, 100, 75, 26))
-        self.btnOk.setObjectName("btnOk")
+        self.btnOk.setGeometry(QtCore.QRect(90, 240, 75, 26))
+        self.btnOk.setObjectName(_fromUtf8("btnOk"))
+        self.run_label = QtGui.QLabel(Dialog)
+        self.run_label.setGeometry(QtCore.QRect(10, 100, 91, 16))
+        self.run_label.setObjectName(_fromUtf8("run_label"))
+        self.start_run = QtGui.QCheckBox(Dialog)
+        self.start_run.setGeometry(QtCore.QRect(10, 120, 121, 20))
+        self.start_run.setObjectName(_fromUtf8("start_run"))
+        self.finish_run = QtGui.QCheckBox(Dialog)
+        self.finish_run.setGeometry(QtCore.QRect(10, 170, 131, 20))
+        self.finish_run.setObjectName(_fromUtf8("finish_run"))
+        self.lineEdit = QtGui.QLineEdit(Dialog)
+        self.lineEdit.setEnabled(False)
+        self.lineEdit.setGeometry(QtCore.QRect(30, 140, 141, 22))
+        self.lineEdit.setObjectName(_fromUtf8("lineEdit"))
+        self.lineEdit_2 = QtGui.QLineEdit(Dialog)
+        self.lineEdit_2.setEnabled(False)
+        self.lineEdit_2.setGeometry(QtCore.QRect(30, 200, 141, 22))
+        self.lineEdit_2.setObjectName(_fromUtf8("lineEdit_2"))
 
         self.retranslateUi(Dialog)
+        QtCore.QObject.connect(self.start_run, QtCore.SIGNAL(_fromUtf8("toggled(bool)")), self.lineEdit.setEnabled)
+        QtCore.QObject.connect(self.finish_run, QtCore.SIGNAL(_fromUtf8("toggled(bool)")), self.lineEdit_2.setEnabled)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
         Dialog.setTabOrder(self.spinTomat, self.spinLong)
         Dialog.setTabOrder(self.spinLong, self.spinShort)
@@ -54,11 +86,13 @@ class Ui_Dialog(object):
         Dialog.setTabOrder(self.btnOk, self.btnCnl)
 
     def retranslateUi(self, Dialog):
-        _translate = QtCore.QCoreApplication.translate
-        Dialog.setWindowTitle(_translate("Dialog", "Dialog"))
-        self.ttime.setText(_translate("Dialog", "Tomato Time"))
-        self.lptime.setText(_translate("Dialog", "Long Pause Time"))
-        self.sptime.setText(_translate("Dialog", "Short Pause Time"))
-        self.btnCnl.setText(_translate("Dialog", "Cancel"))
-        self.btnOk.setText(_translate("Dialog", "Ok"))
+        Dialog.setWindowTitle(_translate("Dialog", "Dialog", None))
+        self.ttime.setText(_translate("Dialog", "Tomato Time", None))
+        self.lptime.setText(_translate("Dialog", "Long Pause Time", None))
+        self.sptime.setText(_translate("Dialog", "Short Pause Time", None))
+        self.btnCnl.setText(_translate("Dialog", "Cancel", None))
+        self.btnOk.setText(_translate("Dialog", "Ok", None))
+        self.run_label.setText(_translate("Dialog", "Run commands", None))
+        self.start_run.setText(_translate("Dialog", "with start pomidor", None))
+        self.finish_run.setText(_translate("Dialog", "when finish pomidor", None))
 

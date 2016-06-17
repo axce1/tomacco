@@ -1,6 +1,7 @@
 import sys
 import time
 import signal
+import subprocess
 from PyQt4 import QtCore, QtGui
 
 from modules import form
@@ -49,6 +50,7 @@ class MainWindow(QtGui.QMainWindow):
     def on_btn_start(self):
         icon = QtGui.QIcon('images/red-tomat.png')
         self.trayIcon.setIcon(icon)
+        subprocess.Popen(config.read_conf('run_commands', 'before', True))
         self.fms.next_state(state.StartEvent, time.time())
         self.timer.start(100)
 
@@ -118,6 +120,7 @@ class MainWindow(QtGui.QMainWindow):
             self.longAction.setDisabled(True)
 
         elif isinstance(self.fms.state, state.SelectState):
+            print('test')
             self.timer.stop()
             icon = QtGui.QIcon('images/init-tomat.png')
             self.trayIcon.setIcon(icon)
@@ -268,6 +271,18 @@ class DialogWindow(QtGui.QDialog, dialog.Ui_Dialog):
         self.spinLong.setValue(self.read_settings('lpause'))
         self.spinShort.setValue(self.read_settings('spause'))
 
+        self.lineEdit.setText(str(config.read_conf('run_commands', 'before', True)))
+        self.lineEdit_2.setText(str(config.read_conf('run_commands', 'after', True)))
+
+        enable_start = config.read_conf('run_commands', 'active_before')
+        enable_finish = config.read_conf('run_commands', 'active_after')
+
+        if enable_start == 1:
+            self.start_run.setChecked(True)
+
+        if enable_finish == 1:
+            self.finish_run.setChecked(True)
+
         self.btnOk.clicked.connect(self.btn_ok_click)
         self.btnCnl.clicked.connect(self.btn_cnl_click)
         self.app = window
@@ -284,6 +299,16 @@ class DialogWindow(QtGui.QDialog, dialog.Ui_Dialog):
                           self.spinLong.value())
         config.write_conf(section, 'spause',
                           self.spinShort.value())
+        config.write_conf('run_commands', 'before',
+                          self.lineEdit.text())
+        config.write_conf('run_commands', 'after',
+                          self.lineEdit_2.text())
+        if self.lineEdit_2.isEnabled:
+            config.write_conf('run_commands', 'active_after',
+                              '1')
+        else:
+            config.write_config('run_commands', 'active_after',
+                                '0')
         self.update_time()
 
     def update_time(self):
