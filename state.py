@@ -84,6 +84,10 @@ class LogicFMS():
         if isinstance(self.state, InitState):
             if event == StartEvent:
                 self.state = TomatoState(stime)
+            elif isinstance(event, ShortEvent):
+                self.state = ShortState(stime)
+            elif isinstance(event, LongEvent):
+                self.state = LongEvent(stime)
 
         elif isinstance(self.state, TomatoState):
             if isinstance(event, TickEvent):
@@ -128,4 +132,4 @@ class LogicFMS():
             elif isinstance(event, ShortEvent):
                 self.state = ShortState(stime)
             elif isinstance(event, StartEvent):
-                 self.state = TomatoState(stime)
+                self.state = TomatoState(stime)

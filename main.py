@@ -1,7 +1,7 @@
 import sys
 import time
 import signal
-from PyQt5 import QtWidgets, QtCore, QtGui
+from PyQt4 import QtCore, QtGui
 
 from modules import form
 from modules import dialog
@@ -10,7 +10,7 @@ import state
 
 
 # TODO убрать notify из модели
-class MainWindow(QtWidgets.QMainWindow):
+class MainWindow(QtGui.QMainWindow):
     def __init__(self, parent=None):
         super().__init__()
         self.ui = form.Ui_MainWindow()
@@ -143,6 +143,7 @@ class MainWindow(QtWidgets.QMainWindow):
                                      self.view_time(self.fms.spause))
             self.ui.btn_lpause.hide()
             self.ui.btn_spause.hide()
+            self.ui.btn_start.hide()
             self.ui.btn_stop.show()
             self.ui.btn_stop.setText('Stop \n Short Pause')
             self.stopAction.setDisabled(False)
@@ -159,6 +160,7 @@ class MainWindow(QtWidgets.QMainWindow):
                                      self.view_time(self.fms.lpause))
             self.ui.btn_lpause.hide()
             self.ui.btn_spause.hide()
+            self.ui.btn_start.hide()
             self.ui.btn_stop.show()
             self.ui.btn_stop.setText('Stop \n Long Pause')
             self.stopAction.setDisabled(False)
@@ -178,7 +180,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def create_tray_icon(self):
         icon = QtGui.QIcon('images/init-tomat.png')
-        menu = QtWidgets.QMenu(self)
+        menu = QtGui.QMenu(self)
 
         self.startAction = menu.addAction("Start Tomacco")
         self.startAction.triggered.connect(self.start_tray)
@@ -212,7 +214,7 @@ class MainWindow(QtWidgets.QMainWindow):
         exitAction = menu.addAction("Quit")
         exitAction.triggered.connect(self.quit_app)
 
-        self.trayIcon = QtWidgets.QSystemTrayIcon(self)
+        self.trayIcon = QtGui.QSystemTrayIcon(self)
         self.trayIcon.setContextMenu(menu)
         self.trayIcon.setIcon(icon)
 
@@ -221,7 +223,7 @@ class MainWindow(QtWidgets.QMainWindow):
                           self.x())
         config.write_conf("Settings", "height",
                           self.y())
-        QtWidgets.qApp.quit()
+        QtGui.qApp.quit()
 
     def start_tray(self):
         self.on_btn_start()
@@ -244,7 +246,7 @@ class MainWindow(QtWidgets.QMainWindow):
             config.notify('Long Pause Start')
 
     def on_trayicon_activated(self, reason):
-        if reason == QtWidgets.QSystemTrayIcon.Trigger:
+        if reason == QtGui.QSystemTrayIcon.Trigger:
             if self.isHidden():
                 self.show()
             else:
@@ -255,7 +257,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.hide()
 
 
-class DialogWindow(QtWidgets.QDialog, dialog.Ui_Dialog):
+class DialogWindow(QtGui.QDialog, dialog.Ui_Dialog):
     def __init__(self, window, parent=None):
         super().__init__(parent)
         self.setupUi(self)
@@ -301,7 +303,7 @@ class DialogWindow(QtWidgets.QDialog, dialog.Ui_Dialog):
 
 if __name__ == '__main__':
     signal.signal(signal.SIGINT, signal.SIG_DFL)
-    app = QtWidgets.QApplication(sys.argv)
+    app = QtGui.QApplication(sys.argv)
     app.setApplicationName('TomaccoTimer')
 
     main = MainWindow()

@@ -7,42 +7,42 @@
 #
 # WARNING! All changes made in this file will be lost!
 
-from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt4 import QtCore, QtGui
 
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
         Dialog.resize(177, 131)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(Dialog.sizePolicy().hasHeightForWidth())
         Dialog.setSizePolicy(sizePolicy)
-        self.ttime = QtWidgets.QLabel(Dialog)
+        self.ttime = QtGui.QLabel(Dialog)
         self.ttime.setGeometry(QtCore.QRect(10, 10, 101, 16))
         self.ttime.setObjectName("ttime")
-        self.lptime = QtWidgets.QLabel(Dialog)
+        self.lptime = QtGui.QLabel(Dialog)
         self.lptime.setGeometry(QtCore.QRect(10, 40, 101, 16))
         self.lptime.setObjectName("lptime")
-        self.sptime = QtWidgets.QLabel(Dialog)
+        self.sptime = QtGui.QLabel(Dialog)
         self.sptime.setGeometry(QtCore.QRect(10, 70, 101, 16))
         self.sptime.setObjectName("sptime")
-        self.spinTomat = QtWidgets.QSpinBox(Dialog)
+        self.spinTomat = QtGui.QSpinBox(Dialog)
         self.spinTomat.setGeometry(QtCore.QRect(128, 10, 41, 22))
         self.spinTomat.setMinimum(1)
         self.spinTomat.setObjectName("spinTomat")
-        self.spinShort = QtWidgets.QSpinBox(Dialog)
+        self.spinShort = QtGui.QSpinBox(Dialog)
         self.spinShort.setGeometry(QtCore.QRect(128, 70, 41, 22))
         self.spinShort.setMinimum(1)
         self.spinShort.setObjectName("spinShort")
-        self.spinLong = QtWidgets.QSpinBox(Dialog)
+        self.spinLong = QtGui.QSpinBox(Dialog)
         self.spinLong.setGeometry(QtCore.QRect(128, 40, 41, 22))
         self.spinLong.setMinimum(1)
         self.spinLong.setObjectName("spinLong")
-        self.btnCnl = QtWidgets.QPushButton(Dialog)
+        self.btnCnl = QtGui.QPushButton(Dialog)
         self.btnCnl.setGeometry(QtCore.QRect(10, 100, 75, 26))
         self.btnCnl.setObjectName("btnCnl")
-        self.btnOk = QtWidgets.QPushButton(Dialog)
+        self.btnOk = QtGui.QPushButton(Dialog)
         self.btnOk.setGeometry(QtCore.QRect(90, 100, 75, 26))
         self.btnOk.setObjectName("btnOk")
 
