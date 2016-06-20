@@ -3,10 +3,11 @@ import time
 import signal
 from PyQt4 import QtCore, QtGui
 
-from modules import form
-from modules import dialog
-from modules import config
-import state
+from .modules import form
+from .modules import dialog
+from .modules import config
+from .modules import state
+from .modules import utils
 
 
 # TODO убрать notify из модели
@@ -47,24 +48,24 @@ class MainWindow(QtGui.QMainWindow):
         self.ui.btn_lpause.clicked.connect(self.on_btn_lpause)
 
     def on_btn_start(self):
-        icon = QtGui.QIcon('images/red-tomat.png')
+        icon = utils.image_tray('red-tomat.png')
         self.trayIcon.setIcon(icon)
         self.fms.next_state(state.StartEvent, time.time())
         self.timer.start(100)
 
     def on_btn_stop(self):
-        icon = QtGui.QIcon('images/init-tomat.png')
+        icon = utils.image_tray('init-tomat.png')
         self.trayIcon.setIcon(icon)
         self.fms.next_state(state.StopEvent(), time.time())
 
     def on_btn_spause(self):
-        icon = QtGui.QIcon('images/short-tomat.png')
+        icon = utils.image_tray('short-tomat.png')
         self.trayIcon.setIcon(icon)
         self.fms.next_state(state.ShortEvent(), time.time())
         self.timer.start(100)
 
     def on_btn_lpause(self):
-        icon = QtGui.QIcon('images/long-tomat.png')
+        icon = utils.image_tray('long-tomat.png')
         self.trayIcon.setIcon(icon)
         self.fms.next_state(state.LongEvent(), time.time())
         self.timer.start(100)
@@ -87,7 +88,7 @@ class MainWindow(QtGui.QMainWindow):
     def update_window(self):
         if isinstance(self.fms.state, state.InitState):
             self.timer.stop()
-            icon = QtGui.QIcon('images/init-tomat.png')
+            icon = utils.image_tray('init-tomat.png')
             self.trayIcon.setIcon(icon)
             self.trayIcon.setToolTip(self.tomacco_label())
             self.ui.status_bar.showMessage("Tomacco - " +
@@ -119,7 +120,7 @@ class MainWindow(QtGui.QMainWindow):
 
         elif isinstance(self.fms.state, state.SelectState):
             self.timer.stop()
-            icon = QtGui.QIcon('images/init-tomat.png')
+            icon = utils.image_tray('init-tomat.png')
             self.trayIcon.setIcon(icon)
             self.trayIcon.setToolTip(self.tomacco_label())
             self.ui.status_bar.showMessage(self.tomacco_label() +
@@ -179,7 +180,7 @@ class MainWindow(QtGui.QMainWindow):
         self.move(self.width, self.height)
 
     def create_tray_icon(self):
-        icon = QtGui.QIcon('images/init-tomat.png')
+        icon = utils.image_tray('init-tomat.png')
         menu = QtGui.QMenu(self)
 
         self.startAction = menu.addAction("Start Tomacco")
@@ -301,12 +302,15 @@ class DialogWindow(QtGui.QDialog, dialog.Ui_Dialog):
         self.hide()
 
 
-if __name__ == '__main__':
+def main():
     signal.signal(signal.SIGINT, signal.SIG_DFL)
     app = QtGui.QApplication(sys.argv)
     app.setApplicationName('TomaccoTimer')
 
-    main = MainWindow()
-    main.show()
+    window = MainWindow()
+    window.show()
 
     sys.exit(app.exec_())
+
+if __name__ == '__main__':
+    main()

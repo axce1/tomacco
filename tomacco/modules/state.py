@@ -1,4 +1,4 @@
-from modules import config
+from .config import notify
 
 
 State = type("State", (), {})
@@ -94,7 +94,7 @@ class LogicFMS():
                 if self.tomat <= int(stime - self.state.get_time()):
                     self.state = SelectState()
                     self.tomacco += 1
-                    config.notify('Count Tomacco Stop')
+                    notify('Count Tomacco Stop')
             elif isinstance(event, StopEvent):
                 self.state = InitState()
             elif isinstance(event, LongEvent):
@@ -112,7 +112,7 @@ class LogicFMS():
             if isinstance(event, TickEvent):
                 if self.spause <= int(stime - self.state.get_time()):
                     self.state = InitState()
-                    config.notify('Short Pause Stop')
+                    notify('Short Pause Stop')
             elif isinstance(event, StopEvent):
                 self.state = InitState()
             elif isinstance(event, LongEvent):
@@ -124,7 +124,7 @@ class LogicFMS():
             if isinstance(event, TickEvent):
                 if self.lpause <= int(stime - self.state.get_time()):
                     self.state = InitState()
-                    config.notify('Long Pause Stop')
+                    notify('Long Pause Stop')
                     self.tomacco = 0
             elif isinstance(event, StopEvent):
                 self.state = InitState()
