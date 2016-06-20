@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(
-    name='Tomacco',
+    name='tomacco',
     version='0.2.1',
     author='axce1',
     author_email='axce1.github@gmail.com',
