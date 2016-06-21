@@ -49,7 +49,8 @@ class MainWindow(QtGui.QMainWindow):
 
     def on_btn_start(self):
         icon = utils.image_tray('red-tomat.png')
-        utils.run('before')
+        if self.start_edit.isEnabled:
+            utils.run('before')
         self.trayIcon.setIcon(icon)
         self.fms.next_state(state.StartEvent, time.time())
         self.timer.start(100)
@@ -121,7 +122,8 @@ class MainWindow(QtGui.QMainWindow):
 
         elif isinstance(self.fms.state, state.SelectState):
             self.timer.stop()
-            utils.run('after')
+            if self.finish_edit.isEnabled:
+                utils.run('after')
             icon = utils.image_tray('init-tomat.png')
             self.trayIcon.setIcon(icon)
             self.trayIcon.setToolTip(self.tomacco_label())
