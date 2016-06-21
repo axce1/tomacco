@@ -3,11 +3,11 @@ import time
 import signal
 from PyQt4 import QtCore, QtGui
 
-from .modules import form
-from .modules import dialog
-from .modules import config
-from .modules import state
-from .modules import utils
+from modules import form
+from modules import dialog
+from modules import config
+from modules import state
+from modules import utils
 
 
 # TODO убрать notify из модели
