@@ -3,11 +3,11 @@ import time
 import signal
 from PyQt4 import QtCore, QtGui
 
-from .modules import form
-from .modules import dialog
-from .modules import config
-from .modules import state
-from .modules import utils
+from modules import form
+from modules import dialog
+from modules import config
+from modules import state
+from modules import utils
 
 
 # TODO убрать notify из модели
@@ -49,6 +49,7 @@ class MainWindow(QtGui.QMainWindow):
 
     def on_btn_start(self):
         icon = utils.image_tray('red-tomat.png')
+        utils.run('before')
         self.trayIcon.setIcon(icon)
         self.fms.next_state(state.StartEvent, time.time())
         self.timer.start(100)
@@ -120,6 +121,7 @@ class MainWindow(QtGui.QMainWindow):
 
         elif isinstance(self.fms.state, state.SelectState):
             self.timer.stop()
+            utils.run('after')
             icon = utils.image_tray('init-tomat.png')
             self.trayIcon.setIcon(icon)
             self.trayIcon.setToolTip(self.tomacco_label())
@@ -271,6 +273,18 @@ class DialogWindow(QtGui.QDialog, dialog.Ui_Dialog):
         self.spinLong.setValue(self.read_settings('lpause'))
         self.spinShort.setValue(self.read_settings('spause'))
 
+        self.start_edit.setText(config.read_conf('run_commands', 'before', True))
+        self.finish_edit.setText(config.read_conf('run_commands', 'after', True))
+
+        enable_start = config.read_conf('run_commands', 'active_before')
+        enable_finish = config.read_conf('run_commands', 'active_after')
+
+        if enable_start == 1:
+            self.start_run.setChecked(True)
+
+        if enable_finish == 1:
+            self.finish_run.setChecked(True)
+
         self.btnOk.clicked.connect(self.btn_ok_click)
         self.btnCnl.clicked.connect(self.btn_cnl_click)
         self.app = window
@@ -287,6 +301,24 @@ class DialogWindow(QtGui.QDialog, dialog.Ui_Dialog):
                           self.spinLong.value())
         config.write_conf(section, 'spause',
                           self.spinShort.value())
+
+        config.write_conf('run_commands', 'before',
+                          self.start_edit.text())
+        config.write_conf('run_commands', 'after',
+                          self.finish_edit.text())
+        if self.start_edit.isEnabled:
+            config.write_conf('run_commands', 'active_after',
+                              '1')
+        else:
+            config.write_config('run_commands', 'active_after',
+                                '0')
+        if self.finish_edit.isEnabled:
+            config.write_conf('run_commands', 'active_after',
+                              '1')
+        else:
+            config.write_config('run_commands', 'active_after',
+                                '0')
+
         self.update_time()
 
     def update_time(self):

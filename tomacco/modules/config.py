@@ -14,6 +14,11 @@ def create_conf():
     config.set("Settings", "spause", "3")
     config.set("Settings", "width", "0")
     config.set("Settings", "height", "0")
+    config.add_section("run_commands")
+    config.set("run_commands", "after", "")
+    config.set("run_commands", "before", "")
+    config.set("run_commands", "active_before", "0")
+    config.set("run_commands", "active_after", "0")
 
     if not os.path.exists(os.path.dirname(path)):
         os.makedirs(os.path.dirname(path))
@@ -32,10 +37,13 @@ def open_conf():
     return conf_file
 
 
-def read_conf(section, option):
+def read_conf(section, option, is_str=None):
     config = open_conf()
 
     value = config.get(section, option)
+
+    if is_str:
+        return value
 
     return int(value)
 
