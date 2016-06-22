@@ -49,7 +49,8 @@ class MainWindow(QtGui.QMainWindow):
 
     def on_btn_start(self):
         icon = utils.image_tray('red-tomat.png')
-        if self.start_edit.isEnabled:
+        enable_start = config.read_conf('run_commands', 'active_before')
+        if enable_start == 1:
             utils.run('before')
         self.trayIcon.setIcon(icon)
         self.fms.next_state(state.StartEvent, time.time())
@@ -308,18 +309,16 @@ class DialogWindow(QtGui.QDialog, dialog.Ui_Dialog):
                           self.start_edit.text())
         config.write_conf('run_commands', 'after',
                           self.finish_edit.text())
-        if self.start_edit.isEnabled:
-            config.write_conf('run_commands', 'active_after',
-                              '1')
+        if self.start_edit.isEnabled():
+            print('enable')
+            config.write_conf('run_commands', 'active_before', '1')
         else:
-            config.write_config('run_commands', 'active_after',
-                                '0')
+            print('disable')
+            config.write_conf('run_commands', 'active_before', '0')
         if self.finish_edit.isEnabled:
-            config.write_conf('run_commands', 'active_after',
-                              '1')
+            config.write_conf('run_commands', 'active_after', '1')
         else:
-            config.write_config('run_commands', 'active_after',
-                                '0')
+            config.write_conf('run_commands', 'active_after', '0')
 
         self.update_time()
 

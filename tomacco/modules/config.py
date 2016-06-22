@@ -39,17 +39,21 @@ def open_conf():
 
 def read_conf(section, option, is_str=None):
     config = open_conf()
-
-    value = config.get(section, option)
-
-    if is_str:
-        return value
-
-    return int(value)
+    if section not in config:
+        config.add_section(section)
+    try:
+        value = config.get(section, option)
+        if is_str:
+            return value
+        return int(value)
+    except configparser.NoOptionError:
+        pass
 
 
 def write_conf(section, option, value):
     config = open_conf()
+    if section not in config:
+        config.add_section(section)
 
     config.set(section, option, str(value))
     with open(path, "w") as config_file:
