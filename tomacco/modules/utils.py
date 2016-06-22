@@ -14,4 +14,5 @@ def image_tray(image):
 def run(when):
     command = read_conf('run_commands', when, True)
     cmd_list = command.split()
-    subprocess.Popen(cmd_list)
+    if cmd_list:
+        subprocess.Popen(cmd_list)
