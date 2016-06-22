@@ -123,7 +123,8 @@ class MainWindow(QtGui.QMainWindow):
 
         elif isinstance(self.fms.state, state.SelectState):
             self.timer.stop()
-            if self.finish_edit.isEnabled:
+            enable_finish = config.read_conf('run_commands', 'active_after')
+            if enable_finish == 1:
                 utils.run('after')
             icon = utils.image_tray('init-tomat.png')
             self.trayIcon.setIcon(icon)
@@ -310,10 +311,8 @@ class DialogWindow(QtGui.QDialog, dialog.Ui_Dialog):
         config.write_conf('run_commands', 'after',
                           self.finish_edit.text())
         if self.start_edit.isEnabled():
-            print('enable')
             config.write_conf('run_commands', 'active_before', '1')
         else:
-            print('disable')
             config.write_conf('run_commands', 'active_before', '0')
         if self.finish_edit.isEnabled:
             config.write_conf('run_commands', 'active_after', '1')
