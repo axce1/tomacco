@@ -57,6 +57,7 @@ class MainWindow(QtGui.QMainWindow):
         self.timer.start(100)
 
     def on_btn_stop(self):
+        utils.run('after')
         icon = utils.image_tray('init-tomat.png')
         self.trayIcon.setIcon(icon)
         self.fms.next_state(state.StopEvent(), time.time())
