@@ -57,9 +57,9 @@ class MainWindow(QtGui.QMainWindow):
         self.timer.start(100)
 
     def on_btn_stop(self):
-        enable_finish = config.read_conf('run_commands', 'active_after')
-        if enable_finish == 1:
-            utils.run('after')
+        #  enable_finish = config.read_conf('run_commands', 'active_after')
+        #  if enable_finish == 1:
+            #  utils.run('after')
         icon = utils.image_tray('init-tomat.png')
         self.trayIcon.setIcon(icon)
         self.fms.next_state(state.StopEvent(), time.time())
@@ -317,7 +317,7 @@ class DialogWindow(QtGui.QDialog, dialog.Ui_Dialog):
             config.write_conf('run_commands', 'active_before', '1')
         else:
             config.write_conf('run_commands', 'active_before', '0')
-        if self.finish_edit.isEnabled:
+        if self.finish_edit.isEnabled():
             config.write_conf('run_commands', 'active_after', '1')
         else:
             config.write_conf('run_commands', 'active_after', '0')
