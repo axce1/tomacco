@@ -57,9 +57,10 @@ class MainWindow(QtGui.QMainWindow):
         self.timer.start(100)
 
     def on_btn_stop(self):
-        #  enable_finish = config.read_conf('run_commands', 'active_after')
-        #  if enable_finish == 1:
-            #  utils.run('after')
+        enable_finish = config.read_conf('run_commands', 'active_after')
+        if enable_finish == 1 and \
+                isinstance(self.fms.state, state.TomatoState):
+            utils.run('after')
         icon = utils.image_tray('init-tomat.png')
         self.trayIcon.setIcon(icon)
         self.fms.next_state(state.StopEvent(), time.time())
@@ -126,9 +127,6 @@ class MainWindow(QtGui.QMainWindow):
 
         elif isinstance(self.fms.state, state.SelectState):
             self.timer.stop()
-            enable_finish = config.read_conf('run_commands', 'active_after')
-            if enable_finish == 1:
-                utils.run('after')
             icon = utils.image_tray('init-tomat.png')
             self.trayIcon.setIcon(icon)
             self.trayIcon.setToolTip(self.tomacco_label())
