@@ -1,2 +1,4 @@
 include README.md
+include CHANGELOG.md
 include tomacco/images/*
+recursive-exclude ui *
