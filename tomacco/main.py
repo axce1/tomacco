@@ -3,6 +3,11 @@ import time
 import signal
 from PyQt4 import QtCore, QtGui
 
+
+# fast fix import error
+import os
+sys.path.append(os.path.dirname(__file__))
+
 from modules import form
 from modules import dialog
 from modules import config
