@@ -49,9 +49,25 @@ class MainWindow(QtGui.QMainWindow):
         self.ui.btn_spause.clicked.connect(self.on_btn_spause)
         self.ui.btn_lpause.clicked.connect(self.on_btn_lpause)
 
-        self.shortcut_start = QxtGlobalShortcut()
-        self.shortcut_start.setShortcut(QtGui.QKeySequence("Ctrl+F"))
-        self.shortcut_start.activated.connect(self.on_btn_start)
+        self.shortcut()
+
+    def shortcut(self):
+
+        self.start = QxtGlobalShortcut()
+        self.start.setShortcut(QtGui.QKeySequence("Ctrl+E"))
+        self.start.activated.connect(self.on_btn_start)
+
+        self.stop = QxtGlobalShortcut()
+        self.stop.setShortcut(QtGui.QKeySequence("Ctrl+R"))
+        self.stop.activated.connect(self.on_btn_stop)
+
+        self.spause = QxtGlobalShortcut()
+        self.spause.setShortcut(QtGui.QKeySequence("Ctrl+P"))
+        self.spause.activated.connect(self.on_btn_spause)
+
+        self.lpause = QxtGlobalShortcut()
+        self.lpause.setShortcut(QtGui.QKeySequence("Ctrl+L"))
+        self.lpause.activated.connect(self.on_btn_lpause)
 
     def on_btn_start(self):
         icon = utils.image_tray('red-tomat.png')
@@ -308,7 +324,7 @@ class DialogWindow(QtGui.QDialog, dialog.Ui_Dialog):
         config.write_conf(section, 'ttime',
                           self.spinTomat.value())
         config.write_conf(section, 'lpause',
-                        =`=jedi=0,   self.spinLong.value())=`= (section, option, *_*value*_*) =`=jedi=`=
+                          self.spinLong.value())
         config.write_conf(section, 'spause',
                           self.spinShort.value())
 
@@ -340,55 +356,15 @@ class DialogWindow(QtGui.QDialog, dialog.Ui_Dialog):
         self.hide()
 
 
-def shortcut(frame):
-
-    start = QxtGlobalShortcut()
-    start.setShortcut(QtGui.QKeySequence("Ctrl+S"))
-    start.activated.connect(frame.on_btn_start)
-
-    print(dir(start))
-
-    stop = QxtGlobalShortcut()
-    stop.setShortcut(QtGui.QKeySequence("Ctrl+C"))
-    stop.activated.connect(frame.on_btn_stop)
-
-    spause = QxtGlobalShortcut()
-    spause.setShortcut(QtGui.QKeySequence("Ctrl+P"))
-    spause.activated.connect(frame.on_btn_spause)
-
-    lpause = QxtGlobalShortcut()
-    lpause.setShortcut(QtGui.QKeySequence("Ctrl+L"))
-    lpause.activated.connect(frame.on_btn_lpause)
-    print('endshortcut')
-
-
 def main():
     signal.signal(signal.SIGINT, signal.SIG_DFL)
     app = QtGui.QApplication(sys.argv)
     app.setApplicationName('TomaccoTimer')
 
     frame = MainWindow()
-    print(type(frame.on_btn_start))
-    #  shortcut(frame)
-    #  start = QxtGlobalShortcut()
-    #  start.setShortcut(QtGui.QKeySequence("Ctrl+S"))
-    #  start.activated.connect(frame.on_btn_start)
-
-    #  stop = QxtGlobalShortcut()
-    #  stop.setShortcut(QtGui.QKeySequence("Ctrl+X"))
-    #  stop.activated.connect(frame.on_btn_stop)
-
-    #  spause = QxtGlobalShortcut()
-    #  spause.setShortcut(QtGui.QKeySequence("Ctrl+P"))
-    #  spause.activated.connect(frame.on_btn_spause)
-
-    #  lpause = QxtGlobalShortcut()
-    #  lpause.setShortcut(QtGui.QKeySequence("Ctrl+L"))
-    #  lpause.activated.connect(frame.on_btn_lpause)
     frame.show()
 
     sys.exit(app.exec_())
 
 if __name__ == '__main__':
     main()
-
