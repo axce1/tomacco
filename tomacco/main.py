@@ -49,9 +49,25 @@ class MainWindow(QtGui.QMainWindow):
         self.ui.btn_spause.clicked.connect(self.on_btn_spause)
         self.ui.btn_lpause.clicked.connect(self.on_btn_lpause)
 
-        self.shortcut_start = QxtGlobalShortcut()
-        self.shortcut_start.setShortcut(QtGui.QKeySequence("Ctrl+F"))
-        self.shortcut_start.activated.connect(self.on_btn_start)
+        self.short()
+        dir(self.short())
+
+    def short(self):
+        self.start = QxtGlobalShortcut()
+        self.start.setShortcut(QtGui.QKeySequence("Ctrl+Alt+S"))
+        self.start.activated.connect(self.on_btn_start)
+
+        self.stop = QxtGlobalShortcut()
+        self.stop.setShortcut(QtGui.QKeySequence("Ctrl+Alt+C"))
+        self.stop.activated.connect(self.on_btn_stop)
+
+        self.spause = QxtGlobalShortcut()
+        self.spause.setShortcut(QtGui.QKeySequence("Ctrl+Alt+P"))
+        self.spause.activated.connect(self.on_btn_spause)
+
+        self.lpause = QxtGlobalShortcut()
+        self.lpause.setShortcut(QtGui.QKeySequence("Ctrl+Alt+L"))
+        self.lpause.activated.connect(self.on_btn_lpause)
 
     def on_btn_start(self):
         icon = utils.image_tray('red-tomat.png')
@@ -308,7 +324,7 @@ class DialogWindow(QtGui.QDialog, dialog.Ui_Dialog):
         config.write_conf(section, 'ttime',
                           self.spinTomat.value())
         config.write_conf(section, 'lpause',
-                        =`=jedi=0,   self.spinLong.value())=`= (section, option, *_*value*_*) =`=jedi=`=
+                          self.spinLong.value())
         config.write_conf(section, 'spause',
                           self.spinShort.value())
 
