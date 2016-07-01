@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>178</width>
-    <height>275</height>
+    <width>362</width>
+    <height>276</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -23,7 +23,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>10</y>
+     <y>30</y>
      <width>101</width>
      <height>16</height>
     </rect>
@@ -35,8 +35,8 @@
   <widget class="QLabel" name="lptime">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>40</y>
+     <x>12</x>
+     <y>70</y>
      <width>101</width>
      <height>16</height>
     </rect>
@@ -48,8 +48,8 @@
   <widget class="QLabel" name="sptime">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>70</y>
+     <x>12</x>
+     <y>110</y>
      <width>101</width>
      <height>16</height>
     </rect>
@@ -61,8 +61,8 @@
   <widget class="QSpinBox" name="spinTomat">
    <property name="geometry">
     <rect>
-     <x>128</x>
-     <y>10</y>
+     <x>118</x>
+     <y>30</y>
      <width>41</width>
      <height>22</height>
     </rect>
@@ -74,8 +74,8 @@
   <widget class="QSpinBox" name="spinShort">
    <property name="geometry">
     <rect>
-     <x>128</x>
-     <y>70</y>
+     <x>120</x>
+     <y>110</y>
      <width>41</width>
      <height>22</height>
     </rect>
@@ -87,8 +87,8 @@
   <widget class="QSpinBox" name="spinLong">
    <property name="geometry">
     <rect>
-     <x>128</x>
-     <y>40</y>
+     <x>120</x>
+     <y>70</y>
      <width>41</width>
      <height>22</height>
     </rect>
@@ -100,7 +100,7 @@
   <widget class="QPushButton" name="btnCnl">
    <property name="geometry">
     <rect>
-     <x>10</x>
+     <x>190</x>
      <y>240</y>
      <width>75</width>
      <height>26</height>
@@ -113,7 +113,7 @@
   <widget class="QPushButton" name="btnOk">
    <property name="geometry">
     <rect>
-     <x>90</x>
+     <x>270</x>
      <y>240</y>
      <width>75</width>
      <height>26</height>
@@ -126,21 +126,27 @@
   <widget class="QLabel" name="run_label">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>100</y>
+     <x>190</x>
+     <y>10</y>
      <width>91</width>
      <height>16</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
    <property name="text">
-    <string>Run commands</string>
+    <string>Run commands:</string>
    </property>
   </widget>
   <widget class="QCheckBox" name="start_run">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>120</y>
+     <x>190</x>
+     <y>30</y>
      <width>121</width>
      <height>20</height>
     </rect>
@@ -152,8 +158,8 @@
   <widget class="QCheckBox" name="finish_run">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>170</y>
+     <x>190</x>
+     <y>80</y>
      <width>131</width>
      <height>20</height>
     </rect>
@@ -168,8 +174,8 @@
    </property>
    <property name="geometry">
     <rect>
-     <x>30</x>
-     <y>140</y>
+     <x>210</x>
+     <y>50</y>
      <width>141</width>
      <height>22</height>
     </rect>
@@ -181,11 +187,254 @@
    </property>
    <property name="geometry">
     <rect>
-     <x>30</x>
-     <y>200</y>
+     <x>210</x>
+     <y>110</y>
      <width>141</width>
      <height>22</height>
     </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="scut_label">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>150</y>
+     <width>71</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="text">
+    <string>Shortcuts:</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEdit">
+   <property name="geometry">
+    <rect>
+     <x>150</x>
+     <y>170</y>
+     <width>21</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="inputMethodHints">
+    <set>Qt::ImhNone</set>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="maxLength">
+    <number>32767</number>
+   </property>
+  </widget>
+  <widget class="QLabel" name="time_label">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>91</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="text">
+    <string>Time settings:</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="sc_st_lb">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>170</y>
+     <width>81</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <underline>false</underline>
+    </font>
+   </property>
+   <property name="text">
+    <string>Start Tomacco </string>
+   </property>
+  </widget>
+  <widget class="Line" name="line">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>130</y>
+     <width>341</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_7">
+   <property name="geometry">
+    <rect>
+     <x>100</x>
+     <y>170</y>
+     <width>52</width>
+     <height>14</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string> Ctrl+Alt+</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="sc_sp_lb">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>200</y>
+     <width>81</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <underline>false</underline>
+     <strikeout>false</strikeout>
+     <kerning>false</kerning>
+    </font>
+   </property>
+   <property name="text">
+    <string>Stop Tomacco </string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_9">
+   <property name="geometry">
+    <rect>
+     <x>100</x>
+     <y>200</y>
+     <width>51</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string> Ctrl+Alt+</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEdit_5">
+   <property name="geometry">
+    <rect>
+     <x>150</x>
+     <y>200</y>
+     <width>21</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="inputMethodHints">
+    <set>Qt::ImhNone</set>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="maxLength">
+    <number>32767</number>
+   </property>
+  </widget>
+  <widget class="QLabel" name="sc_spau_lb">
+   <property name="geometry">
+    <rect>
+     <x>200</x>
+     <y>170</y>
+     <width>71</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Short Pause</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_10">
+   <property name="geometry">
+    <rect>
+     <x>280</x>
+     <y>170</y>
+     <width>52</width>
+     <height>14</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string> Ctrl+Alt+</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_11">
+   <property name="geometry">
+    <rect>
+     <x>280</x>
+     <y>200</y>
+     <width>52</width>
+     <height>14</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string> Ctrl+Alt+</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEdit_2">
+   <property name="geometry">
+    <rect>
+     <x>330</x>
+     <y>170</y>
+     <width>21</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="inputMethodHints">
+    <set>Qt::ImhNone</set>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="maxLength">
+    <number>32767</number>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEdit_6">
+   <property name="geometry">
+    <rect>
+     <x>330</x>
+     <y>200</y>
+     <width>21</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="inputMethodHints">
+    <set>Qt::ImhNone</set>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="maxLength">
+    <number>32767</number>
+   </property>
+  </widget>
+  <widget class="QLabel" name="sc_lpau_lb">
+   <property name="geometry">
+    <rect>
+     <x>200</x>
+     <y>200</y>
+     <width>71</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Long Pause</string>
    </property>
   </widget>
  </widget>
