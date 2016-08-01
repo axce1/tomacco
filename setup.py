@@ -19,6 +19,7 @@ setup(
     ],
     entry_points={
         'console_scripts':
-            ['tomacco=tomacco.main:main']
+            ['tomacco=tomacco.main:main',
+             'tomacco_cli=tomacco.tomacco_cli']
     }
 )
