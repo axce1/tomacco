@@ -1,6 +1,10 @@
 import sys
 import time
 import signal
+import dbus
+import dbus.service
+import dbus.mainloop.glib
+from dbus.mainloop.glib import DBusGMainLoop
 from PyQt4 import QtCore, QtGui
 
 
@@ -340,12 +344,45 @@ class DialogWindow(QtGui.QDialog, dialog.Ui_Dialog):
         self.hide()
 
 
+class DbusService(dbus.service.Object):
+    def __init__(self, frame):
+        self.frame = frame
+        bus_name = dbus.service.BusName('org.prog.tomacco', bus=dbus.SessionBus())
+        dbus.service.Object.__init__(self, bus_name, '/org/prog/tomacco')
+
+    @dbus.service.method('org.prog.tomacco')
+    def start(self):
+        self.frame.on_btn_start()
+
+    @dbus.service.method('org.prog.tomacco')
+    def stop(self):
+        self.frame.on_btn_stop()
+
+    @dbus.service.method('org.prog.tomacco')
+    def spause(self):
+        self.frame.on_btn_spause()
+
+    @dbus.service.method('org.prog.tomacco')
+    def lpause(self):
+        self.frame.on_btn_lpause()
+
+    @dbus.service.method('org.prog.tomacco')
+    def show(self):
+        self.frame.show()
+
+    @dbus.service.method('org.prog.tomacco')
+    def hide(self):
+        self.frame.hide()
+
 def main():
     signal.signal(signal.SIGINT, signal.SIG_DFL)
     app = QtGui.QApplication(sys.argv)
     app.setApplicationName('TomaccoTimer')
 
+    DBusGMainLoop(set_as_default=True)
+
     window = MainWindow()
+    service=DbusService(window)
     window.show()
 
     sys.exit(app.exec_())
