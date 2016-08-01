@@ -374,6 +374,7 @@ class DbusService(dbus.service.Object):
     def hide(self):
         self.frame.hide()
 
+
 def main():
     signal.signal(signal.SIGINT, signal.SIG_DFL)
     app = QtGui.QApplication(sys.argv)

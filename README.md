@@ -9,4 +9,6 @@ https://en.wikipedia.org/wiki/Pomodoro_Technique
     pip3 install tomacco
 
 - Usage
-    tomacco
+    Run main script "tomacco"
+
+    "tomacco-cli" can  start/stop/etc from comandline
