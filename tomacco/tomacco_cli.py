@@ -23,6 +23,12 @@ parser_spause.set_defaults(func=interface.spause)
 parser_lpause = subparser.add_parser('lpause')
 parser_lpause.set_defaults(func=interface.lpause)
 
+parser_show = subparser.add_parser('show')
+parser_show.set_defaults(func=interface.show)
+
+parser_hide= subparser.add_parser('hide')
+parser_hide.set_defaults(func=interface.hide)
+
 if __name__ == '__main__':
     args = parser.parse_args()
     args.func()

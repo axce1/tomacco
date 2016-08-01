@@ -366,6 +366,13 @@ class DbusService(dbus.service.Object):
     def lpause(self):
         self.frame.on_btn_lpause()
 
+    @dbus.service.method('org.prog.tomacco')
+    def show(self):
+        self.frame.show()
+
+    @dbus.service.method('org.prog.tomacco')
+    def hide(self):
+        self.frame.hide()
 
 def main():
     signal.signal(signal.SIGINT, signal.SIG_DFL)
