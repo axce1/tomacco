@@ -29,6 +29,10 @@ parser_show.set_defaults(func=interface.show)
 parser_hide= subparser.add_parser('hide')
 parser_hide.set_defaults(func=interface.hide)
 
-if __name__ == '__main__':
+
+def main():
     args = parser.parse_args()
     args.func()
+
+if __name__ == '__main__':
+    main()
