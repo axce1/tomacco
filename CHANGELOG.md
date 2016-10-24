@@ -1,5 +1,10 @@
 # Change Log
 
+## v0.4.4 (2016-10-24)
+
+**HotFix**
+- some hotfix
+
 ## v0.4.3 (2016-10-24)
 
 **BugFix**
