@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='tomacco',
-    version='0.4.2',
+    version='0.4.3',
     author='axce1',
     author_email='axce1.github@gmail.com',
     packages=find_packages(),
@@ -20,6 +20,6 @@ setup(
     entry_points={
         'console_scripts':
             ['tomacco=tomacco.main:main',
-             'tomacco_cli=tomacco.tomacco_cli']
+             'tomacco_cli=tomacco.tomacco_cli:main']
     }
 )
