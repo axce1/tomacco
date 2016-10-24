@@ -1,5 +1,12 @@
 # Change Log
 
+## v0.4.3 (2016-10-24)
+
+**BugFix**
+
+- fix run tomacco_cli
+- fix force tomacco
+
 ## v0.4.2 (2016-08-01)
 
 **Features**
