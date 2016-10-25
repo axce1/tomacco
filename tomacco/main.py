@@ -279,13 +279,20 @@ class DialogWindow(QtGui.QDialog, dialog.Ui_Dialog):
         super().__init__(parent)
         self.setupUi(self)
 
-        self.setWindowTitle("Settings")
+        self.setWindowTitle('Settings')
         self.setWindowModality(QtCore.Qt.WindowModal)
         self.setFixedSize(self.size())
+
+        if not os.path.exists(config.path):
+            config.create_conf()
 
         self.spinTomat.setValue(self.read_settings('ttime'))
         self.spinLong.setValue(self.read_settings('lpause'))
         self.spinShort.setValue(self.read_settings('spause'))
+
+        cleanup = config.read_conf('Settings', 'cleanup')
+        if cleanup == 1:
+            self.cleanupLong.setChecked(True)
 
         self.start_edit.setText(config.read_conf('run_commands', 'before', True))
         self.finish_edit.setText(config.read_conf('run_commands', 'after', True))
@@ -304,17 +311,23 @@ class DialogWindow(QtGui.QDialog, dialog.Ui_Dialog):
         self.app = window
 
     def read_settings(self, key):
-        value = config.read_conf("Settings", key)
+        value = config.read_conf('Settings', key)
         return value
 
     def write_settings(self):
-        section = "Settings"
+        section = 'Settings'
         config.write_conf(section, 'ttime',
                           self.spinTomat.value())
         config.write_conf(section, 'lpause',
                           self.spinLong.value())
         config.write_conf(section, 'spause',
                           self.spinShort.value())
+
+        if self.cleanupLong.isChecked():
+            config.write_conf(section, 'cleanup', '1')
+        else:
+            config.write_conf(section, 'cleanup', '0')
+
 
         config.write_conf('run_commands', 'before',
                           self.start_edit.text())
@@ -324,6 +337,7 @@ class DialogWindow(QtGui.QDialog, dialog.Ui_Dialog):
             config.write_conf('run_commands', 'active_before', '1')
         else:
             config.write_conf('run_commands', 'active_before', '0')
+
         if self.finish_edit.isEnabled():
             config.write_conf('run_commands', 'active_after', '1')
         else:

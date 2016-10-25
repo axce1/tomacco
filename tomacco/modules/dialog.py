@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'ui/dialog.ui'
 #
-# Created by: PyQt4 UI code generator 4.11.4
+# Created by: PyQt4 UI code generator 4.12.dev1606101416
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -25,7 +25,7 @@ except AttributeError:
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName(_fromUtf8("Dialog"))
-        Dialog.resize(178, 275)
+        Dialog.resize(177, 299)
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -53,28 +53,32 @@ class Ui_Dialog(object):
         self.spinLong.setMinimum(1)
         self.spinLong.setObjectName(_fromUtf8("spinLong"))
         self.btnCnl = QtGui.QPushButton(Dialog)
-        self.btnCnl.setGeometry(QtCore.QRect(10, 240, 75, 26))
+        self.btnCnl.setGeometry(QtCore.QRect(10, 260, 75, 26))
         self.btnCnl.setObjectName(_fromUtf8("btnCnl"))
         self.btnOk = QtGui.QPushButton(Dialog)
-        self.btnOk.setGeometry(QtCore.QRect(90, 240, 75, 26))
+        self.btnOk.setGeometry(QtCore.QRect(90, 260, 75, 26))
         self.btnOk.setObjectName(_fromUtf8("btnOk"))
         self.run_label = QtGui.QLabel(Dialog)
-        self.run_label.setGeometry(QtCore.QRect(10, 100, 91, 16))
+        self.run_label.setGeometry(QtCore.QRect(10, 120, 91, 16))
         self.run_label.setObjectName(_fromUtf8("run_label"))
         self.start_run = QtGui.QCheckBox(Dialog)
-        self.start_run.setGeometry(QtCore.QRect(10, 120, 121, 20))
+        self.start_run.setGeometry(QtCore.QRect(10, 140, 121, 20))
         self.start_run.setObjectName(_fromUtf8("start_run"))
         self.finish_run = QtGui.QCheckBox(Dialog)
-        self.finish_run.setGeometry(QtCore.QRect(10, 170, 131, 20))
+        self.finish_run.setGeometry(QtCore.QRect(10, 190, 131, 20))
         self.finish_run.setObjectName(_fromUtf8("finish_run"))
         self.start_edit = QtGui.QLineEdit(Dialog)
         self.start_edit.setEnabled(False)
-        self.start_edit.setGeometry(QtCore.QRect(30, 140, 141, 22))
+        self.start_edit.setGeometry(QtCore.QRect(30, 160, 141, 22))
         self.start_edit.setObjectName(_fromUtf8("start_edit"))
         self.finish_edit = QtGui.QLineEdit(Dialog)
         self.finish_edit.setEnabled(False)
-        self.finish_edit.setGeometry(QtCore.QRect(30, 200, 141, 22))
+        self.finish_edit.setGeometry(QtCore.QRect(30, 220, 141, 22))
         self.finish_edit.setObjectName(_fromUtf8("finish_edit"))
+        self.cleanupLong = QtGui.QCheckBox(Dialog)
+        self.cleanupLong.setGeometry(QtCore.QRect(10, 95, 121, 20))
+        self.cleanupLong.setChecked(True)
+        self.cleanupLong.setObjectName(_fromUtf8("cleanupLong"))
 
         self.retranslateUi(Dialog)
         QtCore.QObject.connect(self.start_run, QtCore.SIGNAL(_fromUtf8("toggled(bool)")), self.start_edit.setEnabled)
@@ -92,7 +96,8 @@ class Ui_Dialog(object):
         self.sptime.setText(_translate("Dialog", "Short Pause Time", None))
         self.btnCnl.setText(_translate("Dialog", "Cancel", None))
         self.btnOk.setText(_translate("Dialog", "Ok", None))
-        self.run_label.setText(_translate("Dialog", "Run commands", None))
+        self.run_label.setText(_translate("Dialog", "Run commands:", None))
         self.start_run.setText(_translate("Dialog", "with start pomidor", None))
         self.finish_run.setText(_translate("Dialog", "when finish pomidor", None))
+        self.cleanupLong.setText(_translate("Dialog", "CleanUp Tomato", None))
 

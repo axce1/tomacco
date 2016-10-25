@@ -14,6 +14,7 @@ def create_conf():
     config.set("Settings", "spause", "3")
     config.set("Settings", "width", "0")
     config.set("Settings", "height", "0")
+    config.set("Settings", "cleanup", "1")
     config.add_section("run_commands")
     config.set("run_commands", "after", "")
     config.set("run_commands", "before", "")
@@ -54,7 +55,6 @@ def write_conf(section, option, value):
     config = open_conf()
     if section not in config:
         config.add_section(section)
-
     config.set(section, option, str(value))
     with open(path, "w") as config_file:
         config.write(config_file)

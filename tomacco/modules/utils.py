@@ -16,3 +16,8 @@ def run(when):
     cmd_list = command.split()
     if cmd_list:
         subprocess.Popen(cmd_list)
+
+
+def cleanup():
+    clean = read_conf('Settings', 'cleanup')
+    return clean

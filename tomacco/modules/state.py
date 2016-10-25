@@ -1,4 +1,5 @@
 from .config import notify
+from .utils import cleanup
 
 
 State = type("State", (), {})
@@ -127,7 +128,8 @@ class LogicFMS():
                 if self.lpause <= int(stime - self.state.get_time()):
                     self.state = InitState()
                     notify('Long Pause Stop')
-                    self.tomacco = 0
+                    if cleanup():
+                        self.tomacco = 0
             elif isinstance(event, StopEvent):
                 self.state = InitState()
                 self.tomacco = 0
