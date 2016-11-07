@@ -327,18 +327,19 @@ class DialogWindow(QtGui.QDialog, dialog.Ui_Dialog):
             config.write_conf(section, 'cleanup', '1')
         else:
             config.write_conf(section, 'cleanup', '0')
+        print(self.cleanupLong.isChecked())
 
 
         config.write_conf('run_commands', 'before',
                           self.start_edit.text())
         config.write_conf('run_commands', 'after',
                           self.finish_edit.text())
-        if self.start_edit.isEnabled():
+        if self.start_edit.isChecked():
             config.write_conf('run_commands', 'active_before', '1')
         else:
             config.write_conf('run_commands', 'active_before', '0')
 
-        if self.finish_edit.isEnabled():
+        if self.finish_edit.isChecked():
             config.write_conf('run_commands', 'active_after', '1')
         else:
             config.write_conf('run_commands', 'active_after', '0')

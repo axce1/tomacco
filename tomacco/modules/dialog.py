@@ -77,7 +77,7 @@ class Ui_Dialog(object):
         self.finish_edit.setObjectName(_fromUtf8("finish_edit"))
         self.cleanupLong = QtGui.QCheckBox(Dialog)
         self.cleanupLong.setGeometry(QtCore.QRect(10, 95, 121, 20))
-        self.cleanupLong.setChecked(True)
+        self.cleanupLong.setChecked(False)
         self.cleanupLong.setObjectName(_fromUtf8("cleanupLong"))
 
         self.retranslateUi(Dialog)
