@@ -1,3 +1,5 @@
+from time import time
+
 from .config import notify
 from .utils import cleanup
 
@@ -40,11 +42,11 @@ class SelectState(State):
 
 class TomatoState(State):
 
-    def __init__(self, stime):
+    def __init__(self):
         """
         stime - state start time
         """
-        self.stime = stime
+        self.stime = time()
 
     def get_time(self):
         return self.stime
@@ -52,8 +54,8 @@ class TomatoState(State):
 
 class ShortState(State):
 
-    def __init__(self, stime):
-        self.stime = stime
+    def __init__(self):
+        self.stime = time()
 
     def get_time(self):
         return self.stime
@@ -61,8 +63,8 @@ class ShortState(State):
 
 class LongState(State):
 
-    def __init__(self, stime):
-        self.stime = stime
+    def __init__(self):
+        self.stime = time()
 
     def get_time(self):
         return self.stime
@@ -81,51 +83,51 @@ class LogicFMS():
     def set_state(self, state):
         self.state = state
 
-    def next_state(self, event, stime):
+    def next_state(self, event, ns_time):
         if isinstance(self.state, InitState):
             if event == StartEvent:
-                self.state = TomatoState(stime)
+                self.state = TomatoState()
             elif isinstance(event, ShortEvent):
-                self.state = ShortState(stime)
+                self.state = ShortState()
             elif isinstance(event, LongEvent):
-                self.state = LongState(stime)
+                self.state = LongState()
 
         elif isinstance(self.state, TomatoState):
             if isinstance(event, TickEvent):
-                if self.tomat <= int(stime - self.state.get_time()):
+                if self.tomat <= int(ns_time - self.state.get_time()):
                     self.state = SelectState()
                     self.tomacco += 1
                     notify('Count Tomacco Stop')
             elif isinstance(event, StopEvent):
                 self.state = InitState()
             elif isinstance(event, LongEvent):
-                self.state = LongState(stime)
+                self.state = LongState()
             elif isinstance(event, ShortEvent):
-                self.state = ShortState(stime)
+                self.state = ShortState()
 
         elif isinstance(self.state, SelectState):
             if event == StartEvent:
                 self.state = TomatoState(stime)
             elif isinstance(event, ShortEvent):
-                self.state = ShortState(stime)
+                self.state = ShortState()
             elif isinstance(event, LongEvent):
-                self.state = LongState(stime)
+                self.state = LongState()
 
         elif isinstance(self.state, ShortState):
             if isinstance(event, TickEvent):
-                if self.spause <= int(stime - self.state.get_time()):
+                if self.spause <= int(ns_time - self.state.get_time()):
                     self.state = InitState()
                     notify('Short Pause Stop')
             elif isinstance(event, StopEvent):
                 self.state = InitState()
             elif isinstance(event, LongEvent):
-                self.state = LongState(stime)
+                self.state = LongState()
             elif isinstance(event, StartEvent):
-                self.state = TomatoState(stime)
+                self.state = TomatoState()
 
         elif isinstance(self.state, LongState):
             if isinstance(event, TickEvent):
-                if self.lpause <= int(stime - self.state.get_time()):
+                if self.lpause <= int(ns_time - self.state.get_time()):
                     self.state = InitState()
                     notify('Long Pause Stop')
                     if cleanup():
@@ -134,6 +136,6 @@ class LogicFMS():
                 self.state = InitState()
                 self.tomacco = 0
             elif isinstance(event, ShortEvent):
-                self.state = ShortState(stime)
+                self.state = ShortState()
             elif isinstance(event, StartEvent):
-                self.state = TomatoState(stime)
+                self.state = TomatoState()
