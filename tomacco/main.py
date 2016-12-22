@@ -1,9 +1,6 @@
 import sys
 import time
 import signal
-import dbus
-import dbus.service
-import dbus.mainloop.glib
 from dbus.mainloop.glib import DBusGMainLoop
 from PyQt4 import QtCore, QtGui
 
@@ -17,6 +14,7 @@ from modules import dialog
 from modules import config
 from modules import state
 from modules import utils
+from modules.service import DbusService
 
 
 # TODO убрать notify из модели
@@ -62,7 +60,7 @@ class MainWindow(QtGui.QMainWindow):
         if enable_start == 1:
             utils.run('before')
         self.trayIcon.setIcon(icon)
-        self.fms.next_state(state.StartEvent, time.time())
+        self.fms.next_state(state.StartEvent(), time.time())
         self.timer.start(100)
 
     def on_btn_stop(self):
@@ -294,9 +292,10 @@ class DialogWindow(QtGui.QDialog, dialog.Ui_Dialog):
         if cleanup == 1:
             self.cleanupLong.setChecked(True)
 
-        self.start_edit.setText(config.read_conf('run_commands', 'before', True))
-        self.finish_edit.setText(config.read_conf('run_commands', 'after', True))
-
+        self.start_edit.setText(config.read_conf('run_commands',
+                                                 'before', True))
+        self.finish_edit.setText(config.read_conf('run_commands',
+                                                  'after', True))
         enable_start = config.read_conf('run_commands', 'active_before')
         enable_finish = config.read_conf('run_commands', 'active_after')
 
@@ -328,7 +327,6 @@ class DialogWindow(QtGui.QDialog, dialog.Ui_Dialog):
         else:
             config.write_conf(section, 'cleanup', '0')
 
-
         config.write_conf('run_commands', 'before',
                           self.start_edit.text())
         config.write_conf('run_commands', 'after',
@@ -358,37 +356,6 @@ class DialogWindow(QtGui.QDialog, dialog.Ui_Dialog):
         self.hide()
 
 
-class DbusService(dbus.service.Object):
-    def __init__(self, frame):
-        self.frame = frame
-        bus_name = dbus.service.BusName('org.prog.tomacco', bus=dbus.SessionBus())
-        dbus.service.Object.__init__(self, bus_name, '/org/prog/tomacco')
-
-    @dbus.service.method('org.prog.tomacco')
-    def start(self):
-        self.frame.on_btn_start()
-
-    @dbus.service.method('org.prog.tomacco')
-    def stop(self):
-        self.frame.on_btn_stop()
-
-    @dbus.service.method('org.prog.tomacco')
-    def spause(self):
-        self.frame.on_btn_spause()
-
-    @dbus.service.method('org.prog.tomacco')
-    def lpause(self):
-        self.frame.on_btn_lpause()
-
-    @dbus.service.method('org.prog.tomacco')
-    def show(self):
-        self.frame.show()
-
-    @dbus.service.method('org.prog.tomacco')
-    def hide(self):
-        self.frame.hide()
-
-
 def main():
     signal.signal(signal.SIGINT, signal.SIG_DFL)
     app = QtGui.QApplication(sys.argv)
@@ -397,7 +364,7 @@ def main():
     DBusGMainLoop(set_as_default=True)
 
     window = MainWindow()
-    service=DbusService(window)
+    DbusService(window)
     window.show()
 
     sys.exit(app.exec_())
