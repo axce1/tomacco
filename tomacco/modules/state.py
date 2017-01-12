@@ -75,9 +75,9 @@ class LogicFMS():
         self.state = InitState()
         self.tomacco = 0
 
-    def remining_time(self, event, stime):
+    def remining_time(self, event):
         if isinstance(event, TickEvent):
-            count = stime - self.state.get_time()
+            count = time() - self.state.get_time()
             return count
 
     def set_state(self, state):
@@ -85,7 +85,6 @@ class LogicFMS():
 
     def next_state(self, event, ns_time):
         if isinstance(self.state, InitState):
-            print(event)
             if isinstance(event, StartEvent):
                 self.state = TomatoState()
             elif isinstance(event, ShortEvent):

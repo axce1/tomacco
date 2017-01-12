@@ -91,7 +91,7 @@ class MainWindow(QtGui.QMainWindow):
         self.update_window()
 
     def view_time(self, stime):
-        amount = self.fms.remining_time(self.evt, time.time())
+        amount = self.fms.remining_time(self.evt)
         remining_time = time.strftime("%M:%S",
                                       time.gmtime(stime - amount))
         return str(remining_time)
