@@ -1,7 +1,7 @@
 import os
 import subprocess
 from .config import read_conf
-from PyQt4 import QtGui
+from PyQt5 import QtGui
 
 def image_tray(image):
     root = __file__

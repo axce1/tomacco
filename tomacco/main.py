@@ -5,7 +5,8 @@ import dbus
 import dbus.service
 import dbus.mainloop.glib
 from dbus.mainloop.glib import DBusGMainLoop
-from PyQt4 import QtCore, QtGui
+from PyQt5 import QtCore, QtGui
+from PyQt5.QtWidgets import QMainWindow, QDialog, QApplication, QMenu, QSystemTrayIcon
 
 
 # fast fix import error
@@ -20,7 +21,7 @@ from modules import utils
 
 
 # TODO убрать notify из модели
-class MainWindow(QtGui.QMainWindow):
+class MainWindow(QMainWindow):
     def __init__(self, parent=None):
         super().__init__()
         self.ui = form.Ui_MainWindow()
@@ -197,7 +198,7 @@ class MainWindow(QtGui.QMainWindow):
 
     def create_tray_icon(self):
         icon = utils.image_tray('init-tomat.png')
-        menu = QtGui.QMenu(self)
+        menu = QMenu(self)
 
         self.startAction = menu.addAction("Start Tomacco")
         self.startAction.triggered.connect(self.start_tray)
@@ -231,7 +232,7 @@ class MainWindow(QtGui.QMainWindow):
         exitAction = menu.addAction("Quit")
         exitAction.triggered.connect(self.quit_app)
 
-        self.trayIcon = QtGui.QSystemTrayIcon(self)
+        self.trayIcon = QSystemTrayIcon(self)
         self.trayIcon.setContextMenu(menu)
         self.trayIcon.setIcon(icon)
 
@@ -263,7 +264,7 @@ class MainWindow(QtGui.QMainWindow):
             config.notify('Long Pause Start')
 
     def on_trayicon_activated(self, reason):
-        if reason == QtGui.QSystemTrayIcon.Trigger:
+        if reason == QSystemTrayIcon.Trigger:
             if self.isHidden():
                 self.show()
             else:
@@ -274,7 +275,7 @@ class MainWindow(QtGui.QMainWindow):
         self.hide()
 
 
-class DialogWindow(QtGui.QDialog, dialog.Ui_Dialog):
+class DialogWindow(QDialog, dialog.Ui_Dialog):
     def __init__(self, window, parent=None):
         super().__init__(parent)
         self.setupUi(self)
@@ -391,7 +392,7 @@ class DbusService(dbus.service.Object):
 
 def main():
     signal.signal(signal.SIGINT, signal.SIG_DFL)
-    app = QtGui.QApplication(sys.argv)
+    app = QApplication(sys.argv)
     app.setApplicationName('TomaccoTimer')
 
     DBusGMainLoop(set_as_default=True)
